@@ -17,7 +17,7 @@ if (!process.env.DATABASE_URL || !jwtSecret) {
     throw new Error('DATABASE_URL and JWT_SECRET are required');
 }
 
-if (jwtSecret.length < 32 || /your-super-secret|changeme|secret/i.test(jwtSecret)) {
+if (jwtSecret.length < 32 || /your-super-secret|changeme|^secret$/i.test(jwtSecret.trim())) {
     throw new Error('JWT_SECRET must be at least 32 characters and must not be a template value');
 }
 
