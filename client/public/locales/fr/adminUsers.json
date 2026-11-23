@@ -1,0 +1,32 @@
+{
+  "title": "Utilisateurs",
+  "subtitle": "G?rer les r?les et les acc?s des utilisateurs.",
+  "searchPlaceholder": "Rechercher par nom ou e-mail",
+  "loading": "Chargement des utilisateurs...",
+  "loadError": "Impossible de charger les utilisateurs",
+  "retry": "R?essayer",
+  "empty": "Aucun utilisateur trouv?.",
+  "unnamedUser": "Utilisateur sans nom",
+  "ownRoleTooltip": "Vous ne pouvez pas modifier votre propre r?le",
+  "columns": {
+    "name": "Nom",
+    "email": "E-mail",
+    "role": "R?le",
+    "joined": "Date d?arriv?e"
+  },
+  "dialog": {
+    "title": "Confirmer le changement de r?le",
+    "description": "Modifier le r?le de {{name}} : {{from}} vers {{to}} ?"
+  },
+  "cancel": "Annuler",
+  "confirm": "Confirmer",
+  "toast": {
+    "success": "R?le utilisateur mis ? jour"
+  },
+  "roles": {
+    "EMPLOYEE": "Employ?",
+    "MANAGER": "Manager",
+    "FINANCE": "Finance",
+    "ADMIN": "Administrateur"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "welcome": "お帰りなさい",
+  "signInDesc": "SVCORA_SpendXアカウントにサインインしてください",
+  "tabs": {
+    "signIn": "サインイン",
+    "signUp": "サインアップ"
+  },
+  "email": "メールアドレス",
+  "emailPlaceholder": "alex@company.com",
+  "password": "パスワード",
+  "passwordPlaceholder": "••••••",
+  "signInButton": "サインイン →",
+  "help": "サポートが必要ですか？ <1>info@svcinfosys.in</1> に連絡してください",
+  "marketing": {
+    "headline": "<1>経費管理</1>を効率化する",
+    "description": "企業チーム向けのモダンで安全、効率的な経費追跡と承認ワークフロー。",
+    "tagline": "支出をシンプルに。成長を加速。",
+    "trust": "現代の財務チームのために設計",
+    "transparency": "🔒 透明性を最優先"
+  }
+}

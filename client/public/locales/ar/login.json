@@ -1,0 +1,21 @@
+{
+  "welcome": "مرحبًا بعودتك",
+  "signInDesc": "قم بتسجيل الدخول إلى حساب SVCORA_SpendX الخاص بك",
+  "tabs": {
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب"
+  },
+  "email": "البريد الإلكتروني",
+  "emailPlaceholder": "alex@company.com",
+  "password": "كلمة المرور",
+  "passwordPlaceholder": "••••••",
+  "signInButton": "تسجيل الدخول →",
+  "help": "تحتاج مساعدة؟ اتصل بـ <1>info@svcinfosys.in</1>",
+  "marketing": {
+    "headline": "قم بتبسيط <1>إدارة النفقات</1> الخاصة بك",
+    "description": "تتبع النفقات والموافقة عليها بشكل حديث وآمن وفعال لفرق الشركات.",
+    "tagline": "بسّط الإنفاق. عزّز النمو.",
+    "trust": "مصمم لفرق التمويل الحديثة",
+    "transparency": "🔒 الشفافية أولاً"
+  }
+}

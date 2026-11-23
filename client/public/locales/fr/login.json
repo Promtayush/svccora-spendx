@@ -1,0 +1,21 @@
+{
+  "welcome": "Bon retour",
+  "signInDesc": "Connectez-vous à votre compte SVCORA_SpendX",
+  "tabs": {
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire"
+  },
+  "email": "Adresse e-mail",
+  "emailPlaceholder": "alex@company.com",
+  "password": "Mot de passe",
+  "passwordPlaceholder": "••••••",
+  "signInButton": "Se connecter →",
+  "help": "Besoin d'aide ? Contactez <1>info@svcinfosys.in</1>",
+  "marketing": {
+    "headline": "Rationalisez votre <1>gestion des dépenses</1>",
+    "description": "Suivi et approbation des dépenses modernes, sécurisés et efficaces pour les équipes d'entreprise.",
+    "tagline": "Simplifiez les dépenses. Amplifiez la croissance.",
+    "trust": "Conçu pour les équipes financières modernes",
+    "transparency": "🔒 La transparence passe en premier"
+  }
+}

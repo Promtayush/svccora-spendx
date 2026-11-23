@@ -1,0 +1,13 @@
+{
+  "title": "Genehmigungen",
+  "subtitle": "Ausstehende Mitarbeiteranspr?che pr?fen.",
+  "loading": "Genehmigungen werden geladen...",
+  "loadError": "Genehmigungen konnten nicht geladen werden",
+  "retry": "Erneut versuchen",
+  "empty": "Keine ausstehenden Anspr?che.",
+  "rejectTitle": "Anspruch ablehnen",
+  "rejectDescription": "Geben Sie einen Grund f?r die Ablehnung ein.",
+  "rejectionPlaceholder": "Ablehnungsgrund",
+  "cancel": "Abbrechen",
+  "reject": "Anspruch ablehnen"
+}

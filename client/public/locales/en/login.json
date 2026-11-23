@@ -1,0 +1,21 @@
+{
+  "welcome": "Welcome back",
+  "signInDesc": "Sign in to your SVCORA_SpendX account",
+  "tabs": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "email": "Email address",
+  "emailPlaceholder": "alex@company.com",
+  "password": "Password",
+  "passwordPlaceholder": "••••••",
+  "signInButton": "Sign In →",
+  "help": "Need help? Contact <1>info@svcinfosys.in</1>",
+  "marketing": {
+    "headline": "Streamline your <1>expense management</1>",
+    "description": "Modern, secure, and efficient expense tracking and approval workflows for enterprise teams.",
+    "tagline": "Simplify Spend. Amplify Growth.",
+    "trust": "Built for modern finance teams",
+    "transparency": "🔒 Transparency comes first"
+  }
+}

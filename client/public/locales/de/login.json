@@ -1,0 +1,21 @@
+{
+  "welcome": "Willkommen zurück",
+  "signInDesc": "Melden Sie sich bei Ihrem SVCORA_SpendX-Konto an",
+  "tabs": {
+    "signIn": "Anmelden",
+    "signUp": "Registrieren"
+  },
+  "email": "E-Mail-Adresse",
+  "emailPlaceholder": "alex@company.com",
+  "password": "Passwort",
+  "passwordPlaceholder": "••••••",
+  "signInButton": "Anmelden →",
+  "help": "Brauchen Sie Hilfe? Kontaktieren Sie <1>info@svcinfosys.in</1>",
+  "marketing": {
+    "headline": "Optimieren Sie Ihr <1>Ausgabenmanagement</1>",
+    "description": "Moderne, sichere und effiziente Ausgabenverfolgungs- und Genehmigungsabläufe für Unternehmensteams.",
+    "tagline": "Ausgaben vereinfachen. Wachstum verstärken.",
+    "trust": "Für moderne Finanzteams entwickelt",
+    "transparency": "🔒 Transparenz hat oberste Priorität"
+  }
+}

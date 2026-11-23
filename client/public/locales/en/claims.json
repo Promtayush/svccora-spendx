@@ -1,0 +1,75 @@
+{
+  "title": "My Claims",
+  "subtitle": "Manage and track your expense claims",
+  "noClaims": "No claims found",
+  "clearFilters": "Clear Filters",
+  "newClaim": "New Claim",
+  "export": "Export",
+  "searchPlaceholder": "Search claims...",
+  "filter": {
+    "status": "Filter by status",
+    "category": "Filter by category",
+    "allStatuses": "All Statuses",
+    "allCategories": "All Categories",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "paid": "Paid"
+  },
+  "summary": {
+    "totalClaims": "Total Claims",
+    "pending": "Pending",
+    "approved": "Approved",
+    "totalValue": "Total Value"
+  },
+  "emptyMessage": "Try adjusting your search or filter criteria",
+  "loading": "Loading claims...",
+  "loadError": "Unable to load claims",
+  "retry": "Retry",
+  "noClaimsYet": "No claims yet",
+  "allClaims": {
+    "title": "All Claims",
+    "subtitle": "View claims across the company",
+    "export": "Export CSV",
+    "empty": "No claims found.",
+    "searchPlaceholder": "Search claims or owners",
+    "noMatches": "No claims match your filters.",
+    "csvHeaders": {
+      "id": "ID",
+      "title": "Title",
+      "amount": "Amount",
+      "description": "Description",
+      "date": "Date",
+      "status": "Status",
+      "owner": "Owner"
+    }
+  },
+  "status": {
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "paid": "Paid"
+  },
+  "actions": {
+    "approve": "Approve",
+    "reject": "Reject",
+    "processPayment": "Process Payment"
+  },
+  "rejectionReason": "Rejection reason: {{comment}}",
+  "submittedBy": "by {{name}}",
+  "toast": {
+    "updated": "Claim updated successfully",
+    "approved": "Claim approved",
+    "rejected": "Claim rejected",
+    "paid": "Claim marked as paid"
+  },
+  "csvHeaders": {
+    "id": "ID",
+    "title": "Title",
+    "amount": "Amount",
+    "description": "Description",
+    "date": "Date",
+    "status": "Status",
+    "category": "Category"
+  }
+}

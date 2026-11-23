@@ -1,0 +1,28 @@
+{
+  "logoTitle": "SVCORA_SpendX",
+  "logoSubtitle": "Enterprise Finance",
+  "roleSelector": "Current Role",
+  "goodMorning": "Good morning, {{name}}",
+  "dashboardRole": "{{role}} Dashboard",
+  "nav": {
+    "dashboard": "Dashboard",
+    "myClaims": "My Claims",
+    "approvals": "Approvals",
+    "payments": "Payments",
+    "settings": "Settings",
+    "allClaims": "All Claims",
+    "users": "Users"
+  },
+  "greeting": {
+    "morning": "Good morning",
+    "afternoon": "Good afternoon",
+    "evening": "Good evening"
+  },
+  "logout": "Logout",
+  "roles": {
+    "EMPLOYEE": "Employee",
+    "MANAGER": "Manager",
+    "FINANCE": "Finance",
+    "ADMIN": "Admin"
+  }
+}

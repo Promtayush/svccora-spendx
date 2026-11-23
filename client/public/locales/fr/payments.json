@@ -1,0 +1,11 @@
+{
+  "title": "Paiements",
+  "subtitle": "Traiter les r?clamations approuv?es et consulter les derniers versements.",
+  "loading": "Chargement des paiements...",
+  "loadError": "Impossible de charger les paiements",
+  "retry": "R?essayer",
+  "approvedTitle": "R?clamations approuv?es",
+  "approvedEmpty": "Aucune r?clamation approuv?e en attente de paiement.",
+  "paidTitle": "R?cemment pay?es",
+  "paidEmpty": "Aucune r?clamation pay?e pour le moment."
+}

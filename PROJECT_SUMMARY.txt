@@ -1,0 +1,257 @@
+SVCORA_SpendX Project Summary
+=============================
+
+Brief Summary
+-------------
+
+This project is a React/Vite frontend with an Express.js backend, Prisma ORM,
+and PostgreSQL database.
+
+The application has been rebranded to SVCORA_SpendX. Authentication is
+connected to the backend, JWT authentication is enabled, user roles are
+supported, and expense creation and CRUD operations are connected to Prisma.
+
+The main remaining setup blocker is the PostgreSQL credential configuration in
+server/.env. The database password must match the local PostgreSQL password
+before Prisma can create the database tables.
+
+
+Project Architecture
+--------------------
+
+Frontend:
+- React
+- Vite
+- TypeScript
+- Frontend port: 8080
+
+Backend:
+- Express.js
+- JWT authentication
+- bcrypt password hashing
+- Backend port: 3001
+
+Database:
+- PostgreSQL
+- Prisma ORM
+
+Important directories:
+- client/
+- server/
+- server/prisma/
+
+
+Completed Work
+--------------
+
+1. Branding
+
+- Rebranded approved application text to SVCORA_SpendX.
+- Updated browser title and metadata.
+- Updated authentication pages and localization text.
+- Updated documentation branding.
+- Updated logo and favicon references.
+- Preserved the original purple and indigo color theme.
+
+2. Dependency and Prisma Setup
+
+- Installed frontend dependencies in client/.
+- Installed backend dependencies in server/.
+- Generated the Prisma Client.
+- Validated the Prisma schema.
+
+Commands:
+
+  cd client
+  npm install
+
+  cd ..\server
+  npm install
+  npx prisma generate
+
+3. Frontend Environment Variables
+
+The file client/.env contains:
+
+  VITE_API_URL=http://localhost:3001/api
+  VITE_API_BASE_URL=http://localhost:3001
+
+Frontend API calls use VITE_API_BASE_URL instead of the previous port 5000
+hardcoded URLs.
+
+4. Authentication
+
+The frontend authentication page now:
+
+- Sends login requests to http://localhost:3001/login.
+- Sends signup requests to http://localhost:3001/signup.
+- Sends name, email, password, and role during signup.
+- Stores the JWT token in localStorage.
+- Handles backend errors.
+- Navigates after successful authentication.
+
+The backend signup controller:
+
+- Extracts name, email, password, and role.
+- Hashes passwords with bcrypt.
+- Saves the role using EMPLOYEE as the default.
+- Creates the user through Prisma.
+
+5. Database Schema
+
+The Prisma schema now contains:
+
+- A Role enum:
+  - EMPLOYEE
+  - MANAGER
+  - FINANCE
+  - ADMIN
+
+- A User role field with EMPLOYEE as the default.
+- A User-to-Expense relationship.
+- An Expense model containing:
+  - id
+  - amount
+  - description
+  - category
+  - status
+  - date
+  - userId
+
+Expense.userId is an integer because the existing User.id field is an integer.
+
+6. User Endpoint Security
+
+The GET /users endpoint is protected by JWT authentication.
+
+It returns only safe user fields:
+
+- id
+- name
+- email
+- role
+
+Password hashes are not returned.
+
+7. Expense API
+
+Expense routes are mounted at:
+
+  /api/expenses
+
+Available endpoints:
+
+  POST   /api/expenses
+  GET    /api/expenses
+  PUT    /api/expenses/:id
+  DELETE /api/expenses/:id
+
+The expense controller now supports:
+
+- Creating expenses.
+- Retrieving expenses.
+- Updating expenses.
+- Deleting expenses.
+- Amount and date validation.
+- Associating expenses with the authenticated user.
+- Employee ownership filtering.
+- Manager, finance, and admin access to all expenses.
+- Admin override for update and delete operations.
+- JSON success and error responses.
+
+8. Add Claim Form
+
+The Add Claims page now:
+
+- Sends authenticated POST requests to /api/expenses.
+- Includes the JWT token.
+- Sends amount, description, category, and date.
+- Displays success feedback.
+- Navigates to the claims page after submission.
+- Displays backend error messages.
+
+9. Prisma Import Verification
+
+The expense controller uses the existing shared Prisma instance:
+
+  import prisma from '../prisma/prisma.js';
+
+The shared Prisma instance exists in:
+
+  server/prisma/prisma.js
+
+
+PostgreSQL Setup Status
+-----------------------
+
+PostgreSQL was installed manually.
+
+The PostgreSQL service was detected as:
+
+  postgresql-x64-18
+
+PostgreSQL is configured to use:
+
+  localhost:5432
+
+The database server is reachable, but Prisma previously returned:
+
+  P1000: Authentication failed against database server
+
+This means the PostgreSQL username or password in server/.env is not correct.
+Do not share the database password publicly.
+
+
+Next Steps
+----------
+
+1. Open server/.env.
+2. Set DATABASE_URL with the correct local PostgreSQL username and password.
+3. From the server directory, push the Prisma schema:
+
+  cd server
+  npx prisma db push
+
+4. Start the backend:
+
+  npm run dev
+
+5. Test signup from the frontend.
+6. Test creating a claim from the Add Claim page.
+
+
+Remaining Application Features
+------------------------------
+
+The following larger features are not fully implemented yet:
+
+- Receipt uploads.
+- OCR processing.
+- Approval workflows.
+- Payment processing.
+- Advanced reports.
+- Notifications.
+- Audit logs.
+- Complete role-based access control.
+- Replacing remaining frontend mock claims and dashboard data with API data.
+
+
+Important Files
+---------------
+
+Frontend:
+- client/src/pages/Auth.tsx
+- client/src/pages/AddClaims.tsx
+- client/.env
+
+Backend:
+- server/server.js
+- server/routes/index.js
+- server/routes/expenseRoutes.js
+- server/controllers/expenseController.js
+- server/controllers/user.controller.js/controller.js
+- server/middlewares/authenticateUser.js
+- server/prisma/prisma.js
+- server/prisma/schema.prisma
+- server/.env
+

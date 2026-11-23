@@ -1,0 +1,32 @@
+{
+  "title": "Users",
+  "subtitle": "Manage user roles and access.",
+  "searchPlaceholder": "Search by name or email",
+  "loading": "Loading users...",
+  "loadError": "Unable to load users",
+  "retry": "Retry",
+  "empty": "No users found.",
+  "unnamedUser": "Unnamed user",
+  "ownRoleTooltip": "You cannot change your own role",
+  "columns": {
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "joined": "Joined date"
+  },
+  "dialog": {
+    "title": "Confirm role change",
+    "description": "Change {{name}} from {{from}} to {{to}}?"
+  },
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "toast": {
+    "success": "User role updated"
+  },
+  "roles": {
+    "EMPLOYEE": "Employee",
+    "MANAGER": "Manager",
+    "FINANCE": "Finance",
+    "ADMIN": "Admin"
+  }
+}

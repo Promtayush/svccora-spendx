@@ -1,0 +1,11 @@
+{
+  "title": "Payments",
+  "subtitle": "Process approved claims and review recent payouts.",
+  "loading": "Loading payments...",
+  "loadError": "Unable to load payments",
+  "retry": "Retry",
+  "approvedTitle": "Approved claims",
+  "approvedEmpty": "No approved claims waiting for payment.",
+  "paidTitle": "Recently paid",
+  "paidEmpty": "No paid claims yet."
+}

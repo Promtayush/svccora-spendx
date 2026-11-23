@@ -1,0 +1,13 @@
+{
+  "title": "Approbations",
+  "subtitle": "Examiner les r?clamations des employ?s en attente.",
+  "loading": "Chargement des approbations...",
+  "loadError": "Impossible de charger les approbations",
+  "retry": "R?essayer",
+  "empty": "Aucune r?clamation en attente.",
+  "rejectTitle": "Rejeter la r?clamation",
+  "rejectDescription": "Saisissez le motif du rejet.",
+  "rejectionPlaceholder": "Motif du rejet",
+  "cancel": "Annuler",
+  "reject": "Rejeter la r?clamation"
+}

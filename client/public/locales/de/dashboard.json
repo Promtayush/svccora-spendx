@@ -1,0 +1,37 @@
+{
+  "title": "Armaturenbrett",
+  "subtitle": "Übersicht über Ihre Spesenanträge und Genehmigungen",
+  "stats": {
+    "totalClaims": "Gesamtansprüche",
+    "pendingReview": "Ausstehende Überprüfung",
+    "approved": "Genehmigt",
+    "totalAmount": "Gesamtbetrag",
+    "changeFromLastMonth": "seit letztem Monat"
+  },
+  "recentClaims": "Letzte Ansprüche",
+  "quickActions": "Schnellaktionen",
+  "submitNewClaim": "Neuen Anspruch einreichen",
+  "reviewPending": "Überprüfung ausstehend",
+  "viewReports": "Berichte ansehen",
+  "notifications": "Benachrichtigungen",
+  "claimApproved": "wurde genehmigt",
+  "paymentProcessed": "Zahlung von <1>{{amount}}</1> verarbeitet",
+  "viewAllClaims": "Alle Ansprüche ansehen",
+  "newClaim": "Neuer Anspruch",
+  "loading": "Dashboard wird geladen...",
+  "loadError": "Dashboard konnte nicht geladen werden",
+  "retry": "Erneut versuchen",
+  "roleDashboard": "Dashboard {{role}}",
+  "teamOverview": "Team?bersicht",
+  "sampleClaim": "Anspruch #1234",
+  "sampleTime": {
+    "hours": "vor 2 Stunden",
+    "day": "vor 1 Tag"
+  },
+  "roles": {
+    "EMPLOYEE": "Mitarbeiter",
+    "MANAGER": "Manager",
+    "FINANCE": "Finanzen",
+    "ADMIN": "Administrator"
+  }
+}

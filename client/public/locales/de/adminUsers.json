@@ -1,0 +1,32 @@
+{
+  "title": "Benutzer",
+  "subtitle": "Benutzerrollen und Zugriffsrechte verwalten.",
+  "searchPlaceholder": "Nach Name oder E-Mail suchen",
+  "loading": "Benutzer werden geladen...",
+  "loadError": "Benutzer konnten nicht geladen werden",
+  "retry": "Erneut versuchen",
+  "empty": "Keine Benutzer gefunden.",
+  "unnamedUser": "Unbenannter Benutzer",
+  "ownRoleTooltip": "Sie k?nnen Ihre eigene Rolle nicht ?ndern",
+  "columns": {
+    "name": "Name",
+    "email": "E-Mail",
+    "role": "Rolle",
+    "joined": "Beitrittsdatum"
+  },
+  "dialog": {
+    "title": "Rollen?nderung best?tigen",
+    "description": "{{name}} von {{from}} zu {{to}} ?ndern?"
+  },
+  "cancel": "Abbrechen",
+  "confirm": "Best?tigen",
+  "toast": {
+    "success": "Benutzerrolle aktualisiert"
+  },
+  "roles": {
+    "EMPLOYEE": "Mitarbeiter",
+    "MANAGER": "Manager",
+    "FINANCE": "Finanzen",
+    "ADMIN": "Administrator"
+  }
+}

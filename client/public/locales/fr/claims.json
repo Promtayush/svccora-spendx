@@ -1,0 +1,75 @@
+{
+  "title": "Mes Demandes",
+  "subtitle": "Gérez et suivez vos demandes de dépenses",
+  "noClaims": "Aucune demande trouvée",
+  "clearFilters": "Effacer les filtres",
+  "newClaim": "Nouvelle demande",
+  "export": "Exporter",
+  "searchPlaceholder": "Rechercher des demandes...",
+  "filter": {
+    "status": "Filtrer par statut",
+    "category": "Filtrer par catégorie",
+    "allStatuses": "Tous les statuts",
+    "allCategories": "Toutes les catégories",
+    "pending": "En attente",
+    "approved": "Approuvé",
+    "rejected": "Rejeté",
+    "paid": "Payé"
+  },
+  "summary": {
+    "totalClaims": "Total des demandes",
+    "pending": "En attente",
+    "approved": "Approuvé",
+    "totalValue": "Valeur totale"
+  },
+  "emptyMessage": "Essayez d'ajuster vos critères de recherche ou de filtrage",
+  "loading": "Chargements des r?clamations...",
+  "loadError": "Impossible de charger les r?clamations",
+  "retry": "R?essayer",
+  "noClaimsYet": "Aucune r?clamation pour le moment",
+  "allClaims": {
+    "title": "Toutes les r?clamations",
+    "subtitle": "Consulter les r?clamations de l?entreprise",
+    "export": "Exporter en CSV",
+    "empty": "Aucune r?clamation trouv?e.",
+    "searchPlaceholder": "Rechercher des r?clamations ou des personnes",
+    "noMatches": "Aucune r?clamation ne correspond ? vos filtres.",
+    "csvHeaders": {
+      "id": "ID",
+      "title": "Titre",
+      "amount": "Montant",
+      "description": "Description",
+      "date": "Date",
+      "status": "Statut",
+      "owner": "Demandeur"
+    }
+  },
+  "status": {
+    "pending": "En attente",
+    "approved": "Approuv?e",
+    "rejected": "Rejet?e",
+    "paid": "Pay?e"
+  },
+  "actions": {
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "processPayment": "Traiter le paiement"
+  },
+  "rejectionReason": "Motif du rejet : {{comment}}",
+  "submittedBy": "par {{name}}",
+  "toast": {
+    "updated": "R?clamation mise ? jour",
+    "approved": "R?clamation approuv?e",
+    "rejected": "R?clamation rejet?e",
+    "paid": "R?clamation marqu?e comme pay?e"
+  },
+  "csvHeaders": {
+    "id": "ID",
+    "title": "Titre",
+    "amount": "Montant",
+    "description": "Description",
+    "date": "Date",
+    "status": "Statut",
+    "category": "Cat?gorie"
+  }
+}

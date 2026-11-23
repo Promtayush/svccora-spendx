@@ -1,0 +1,11 @@
+{
+  "title": "Zahlungen",
+  "subtitle": "Genehmigte Anspr?che bearbeiten und letzte Auszahlungen pr?fen.",
+  "loading": "Zahlungen werden geladen...",
+  "loadError": "Zahlungen konnten nicht geladen werden",
+  "retry": "Erneut versuchen",
+  "approvedTitle": "Genehmigte Anspr?che",
+  "approvedEmpty": "Keine genehmigten Anspr?che warten auf Zahlung.",
+  "paidTitle": "K?rzlich bezahlt",
+  "paidEmpty": "Noch keine bezahlten Anspr?che."
+}

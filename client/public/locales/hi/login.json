@@ -1,0 +1,21 @@
+{
+  "welcome": "फिर से स्वागत है",
+  "signInDesc": "अपने SVCORA_SpendX खाते में साइन इन करें",
+  "tabs": {
+    "signIn": "साइन इन",
+    "signUp": "साइन अप"
+  },
+  "email": "ईमेल पता",
+  "emailPlaceholder": "alex@company.com",
+  "password": "पासवर्ड",
+  "passwordPlaceholder": "••••••",
+  "signInButton": "साइन इन करें →",
+  "help": "सहायता चाहिए? संपर्क करें <1>info@svcinfosys.in</1>",
+  "marketing": {
+    "headline": "अपने <1>खर्च प्रबंधन</1> को सरल बनाएं",
+    "description": "उद्यम टीमों के लिए आधुनिक, सुरक्षित और कुशल खर्च ट्रैकिंग और अनुमोदन कार्यप्रवाह।",
+    "tagline": "खर्च को सरल बनाएं। विकास को बढ़ावा दें।",
+    "trust": "आधुनिक वित्तीय टीमों के लिए निर्मित",
+    "transparency": "🔒 पारदर्शिता पहले आती है"
+  }
+}

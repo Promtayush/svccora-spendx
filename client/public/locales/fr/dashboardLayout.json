@@ -1,0 +1,28 @@
+{
+  "logoTitle": "SVCORA_SpendX",
+  "logoSubtitle": "Finance d'entreprise",
+  "roleSelector": "Rôle actuel",
+  "goodMorning": "Bonjour, {{name}}",
+  "dashboardRole": "Tableau de bord {{role}}",
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "myClaims": "Mes réclamations",
+    "approvals": "Approbations",
+    "payments": "Paiements",
+    "settings": "Paramètres",
+    "allClaims": "Toutes les r?clamations",
+    "users": "Utilisateurs"
+  },
+  "greeting": {
+    "morning": "Bonjour",
+    "afternoon": "Bon apr?s-midi",
+    "evening": "Bonsoir"
+  },
+  "logout": "Se d?connecter",
+  "roles": {
+    "EMPLOYEE": "Employ?",
+    "MANAGER": "Manager",
+    "FINANCE": "Finance",
+    "ADMIN": "Administrateur"
+  }
+}

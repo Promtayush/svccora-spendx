@@ -1,0 +1,75 @@
+{
+  "title": "Meine Ansprüche",
+  "subtitle": "Verwalten und verfolgen Sie Ihre Spesenanträge",
+  "noClaims": "Keine Ansprüche gefunden",
+  "clearFilters": "Filter zurücksetzen",
+  "newClaim": "Neuer Anspruch",
+  "export": "Exportieren",
+  "searchPlaceholder": "Ansprüche suchen...",
+  "filter": {
+    "status": "Nach Status filtern",
+    "category": "Nach Kategorie filtern",
+    "allStatuses": "Alle Status",
+    "allCategories": "Alle Kategorien",
+    "pending": "Ausstehend",
+    "approved": "Genehmigt",
+    "rejected": "Abgelehnt",
+    "paid": "Bezahlt"
+  },
+  "summary": {
+    "totalClaims": "Gesamtansprüche",
+    "pending": "Ausstehend",
+    "approved": "Genehmigt",
+    "totalValue": "Gesamtwert"
+  },
+  "emptyMessage": "Versuchen Sie, Ihre Such- oder Filterkriterien anzupassen",
+  "loading": "Anspr?che werden geladen...",
+  "loadError": "Anspr?che konnten nicht geladen werden",
+  "retry": "Erneut versuchen",
+  "noClaimsYet": "Noch keine Anspr?che",
+  "allClaims": {
+    "title": "Alle Anspr?che",
+    "subtitle": "Unternehmensweite Anspr?che anzeigen",
+    "export": "CSV exportieren",
+    "empty": "Keine Anspr?che gefunden.",
+    "searchPlaceholder": "Anspr?che oder Personen suchen",
+    "noMatches": "Keine Anspr?che passen zu Ihren Filtern.",
+    "csvHeaders": {
+      "id": "ID",
+      "title": "Titel",
+      "amount": "Betrag",
+      "description": "Beschreibung",
+      "date": "Datum",
+      "status": "Status",
+      "owner": "Besitzer"
+    }
+  },
+  "status": {
+    "pending": "Ausstehend",
+    "approved": "Genehmigt",
+    "rejected": "Abgelehnt",
+    "paid": "Bezahlt"
+  },
+  "actions": {
+    "approve": "Genehmigen",
+    "reject": "Ablehnen",
+    "processPayment": "Zahlung verarbeiten"
+  },
+  "rejectionReason": "Ablehnungsgrund: {{comment}}",
+  "submittedBy": "von {{name}}",
+  "toast": {
+    "updated": "Anspruch erfolgreich aktualisiert",
+    "approved": "Anspruch genehmigt",
+    "rejected": "Anspruch abgelehnt",
+    "paid": "Anspruch als bezahlt markiert"
+  },
+  "csvHeaders": {
+    "id": "ID",
+    "title": "Titel",
+    "amount": "Betrag",
+    "description": "Beschreibung",
+    "date": "Datum",
+    "status": "Status",
+    "category": "Kategorie"
+  }
+}

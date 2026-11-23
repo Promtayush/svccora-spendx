@@ -1,0 +1,13 @@
+{
+  "title": "Approvals",
+  "subtitle": "Review pending employee claims.",
+  "loading": "Loading approvals...",
+  "loadError": "Unable to load approvals",
+  "retry": "Retry",
+  "empty": "No pending claims.",
+  "rejectTitle": "Reject claim",
+  "rejectDescription": "Enter a reason for rejecting this claim.",
+  "rejectionPlaceholder": "Rejection reason",
+  "cancel": "Cancel",
+  "reject": "Reject claim"
+}

@@ -1,0 +1,168 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  EMPLOYEE
+  MANAGER
+  FINANCE
+  ADMIN
+}
+
+model User {
+  id                   Int       @id @default(autoincrement())
+  email                String    @unique
+  password             String
+  name                 String?
+  role                 Role      @default(EMPLOYEE)
+  managerId            Int?
+  approvalLimit        Float?    // NULL means unlimited signing authority
+  canApproveExceptions Boolean   @default(false)
+  department           String?
+  costCenter           String?
+  resetPasswordOtp     String?
+  resetPasswordExpires DateTime?
+  createdAt            DateTime  @default(now())
+
+  // Supervisory line hierarchy
+  manager              User?     @relation("UserManager", fields: [managerId], references: [id])
+  subordinates         User[]    @relation("UserManager")
+
+  // Expenses ownership and lifecycle
+  expenses             Expense[] @relation("ExpenseOwner")
+  reviewedExpenses     Expense[] @relation("ExpenseReviewer")
+  paidExpenses         Expense[] @relation("ExpensePayer")
+  assignedExpenses     Expense[] @relation("AssignedApprover")
+
+  // Delegations
+  delegatedTo          Delegation[] @relation("Delegator")
+  delegatedFrom        Delegation[] @relation("Delegate")
+
+  // Owned Cost Centers (Cost Object Approver)
+  ownedCostCenters     CostCenter[] @relation("CostCenterOwner")
+
+  @@index([managerId])
+  @@index([role])
+}
+
+model CostCenter {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique
+  name        String
+  managerId   Int?
+  manager     User?    @relation("CostCenterOwner", fields: [managerId], references: [id])
+  allocations ExpenseAllocation[]
+  createdAt   DateTime @default(now())
+}
+
+model Delegation {
+  id          Int      @id @default(autoincrement())
+  delegatorId Int
+  delegateId  Int
+  startDate   DateTime
+  endDate     DateTime
+  isActive    Boolean  @default(true)
+  delegator   User     @relation("Delegator", fields: [delegatorId], references: [id])
+  delegate    User     @relation("Delegate", fields: [delegateId], references: [id])
+  createdAt   DateTime @default(now())
+
+  @@index([delegatorId, isActive])
+  @@index([delegateId, isActive])
+}
+
+model Expense {
+  id                Int       @id @default(autoincrement())
+  amount            Float
+  description       String
+  category          String
+  status            String    @default("PENDING") // PENDING, APPROVED, REJECTED, PAID
+  
+  // SVCORA_SpendX Lifecycle States & Hierarchy fields
+  approvalStatus    String    @default("PENDING_MANAGER_APPROVAL") // DRAFT, PENDING_MANAGER_APPROVAL, PENDING_AUTHORIZED_APPROVAL, PENDING_COA, IN_ACCOUNTING_REVIEW, APPROVED, SENT_BACK, REJECTED
+  paymentStatus     String    @default("NOT_PAID")                 // NOT_PAID, PROCESSING_PAYMENT, PAID
+  currentStep       String    @default("MANAGER_APPROVAL")         // DRAFT, MANAGER_APPROVAL, AUTHORIZED_APPROVAL, COST_OBJECT_APPROVAL, PROCESSOR_REVIEW, COMPLETED
+  currentApproverId Int?
+  currentApprover   User?     @relation("AssignedApprover", fields: [currentApproverId], references: [id])
+
+  costCenterCode    String?
+  categoryCode      String?
+  paymentMethod     String    @default("REIMBURSEMENT") // REIMBURSEMENT, CORPORATE_CARD, ADVANCE_ADJUSTMENT
+  receiptUrl        String?
+  date              DateTime
+  userId            Int
+  reviewedById      Int?
+  reviewedAt        DateTime?
+  reviewComment     String?
+  paidById          Int?
+  paidAt            DateTime?
+
+  paymentReference  String?   // Bank Transfer UTR Number (e.g. HDFC00192837)
+  deletedAt         DateTime? // Soft-delete support for audit preservation
+
+  user              User      @relation("ExpenseOwner", fields: [userId], references: [id])
+  reviewer          User?     @relation("ExpenseReviewer", fields: [reviewedById], references: [id])
+  payer             User?     @relation("ExpensePayer", fields: [paidById], references: [id])
+
+  allocations       ExpenseAllocation[]
+  workflowHistory   WorkflowHistory[]
+
+  @@index([userId])
+  @@index([currentApproverId, approvalStatus])
+  @@index([status, paymentStatus])
+  @@index([date])
+}
+
+model ExpenseAllocation {
+  id           Int        @id @default(autoincrement())
+  expenseId    Int
+  costCenterId Int
+  percentage   Float
+  amount       Float
+  status       String     @default("PENDING") // PENDING, APPROVED, REJECTED
+  approvedById Int?
+  approvedAt   DateTime?
+
+  expense      Expense    @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+  costCenter   CostCenter @relation(fields: [costCenterId], references: [id])
+}
+
+model WorkflowHistory {
+  id           Int      @id @default(autoincrement())
+  expenseId    Int
+  step         String   // MANAGER_APPROVAL, AUTHORIZED_APPROVAL, COST_OBJECT_APPROVAL, PROCESSOR_REVIEW
+  action       String   // SUBMIT, APPROVE, SEND_BACK, APPROVE_AND_FORWARD, AUTO_ESCALATE, SKIP, PROCESS_PAYMENT
+  actorId      Int
+  actorName    String
+  actorRole    String
+  delegateId   Int?
+  delegateName String?
+  comment      String?
+  createdAt    DateTime @default(now())
+
+  expense      Expense  @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+
+  @@index([expenseId])
+}
+
+model ExpenseCategoryMaster {
+  id              Int      @id @default(autoincrement())
+  code            String   @unique
+  groupCode       String
+  groupName       String
+  categoryName    String
+  subcategoryName String
+  receiptRequired Boolean  @default(true)
+  policyLimit     Float?
+  isReimbursable  Boolean  @default(true)
+  isStatutory     Boolean  @default(false)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+
+  @@index([groupCode])
+  @@index([isActive])
+}
