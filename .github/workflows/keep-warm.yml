@@ -1,0 +1,18 @@
+name: 24/7 Keep Warm Ping
+
+on:
+  schedule:
+    # Run every 10 minutes
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Ping Render Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Keep-Warm Health Check
+        run: |
+          echo "Pinging SVCORA SpendX API to prevent cold start spin-down..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://spendx-api-89bk.onrender.com/)
+          echo "Health Check HTTP Status: $STATUS"
