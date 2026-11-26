@@ -24,7 +24,7 @@ if (jwtSecret.length < 32 || /your-super-secret|changeme|^secret$/i.test(jwtSecr
 const app = express();
 const port = process.env.PORT || 3001;
 const parseCorsOrigin = (originEnv) => {
-    if (!originEnv || originEnv === '*') return '*';
+    if (!originEnv || originEnv === '*') return true; // Reflect origin so credentials: true is strictly compliant
     const list = originEnv.split(',').map((item) => item.trim());
     return list.length === 1 ? list[0] : list;
 };

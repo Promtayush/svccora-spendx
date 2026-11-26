@@ -93,6 +93,9 @@ model Expense {
   categoryCode      String?
   paymentMethod     String    @default("REIMBURSEMENT") // REIMBURSEMENT, CORPORATE_CARD, ADVANCE_ADJUSTMENT
   receiptUrl        String?
+  receiptData       String?   // Base64 encoded file data for permanent persistence across ephemeral restarts
+  receiptMimeType   String?
+  receiptFileName   String?
   date              DateTime
   userId            Int
   reviewedById      Int?
@@ -110,6 +113,7 @@ model Expense {
 
   allocations       ExpenseAllocation[]
   workflowHistory   WorkflowHistory[]
+  receiptAttachments ReceiptAttachment[]
 
   @@index([userId])
   @@index([currentApproverId, approvalStatus])
@@ -165,4 +169,20 @@ model ExpenseCategoryMaster {
 
   @@index([groupCode])
   @@index([isActive])
+}
+
+model ReceiptAttachment {
+  id           Int      @id @default(autoincrement())
+  filename     String   @unique
+  originalName String?
+  mimeType     String   @default("image/png")
+  size         Int      @default(0)
+  data         String   // Base64 encoded file data
+  expenseId    Int?
+  createdAt    DateTime @default(now())
+
+  expense      Expense? @relation(fields: [expenseId], references: [id], onDelete: SetNull)
+
+  @@index([filename])
+  @@index([expenseId])
 }

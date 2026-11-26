@@ -138,6 +138,25 @@ export const WorkflowStepperModal = ({
           </div>
         )}
 
+        {/* Cleared for Payment Disbursal Action Banner */}
+        {expense.status === "APPROVED" && expense.paymentStatus !== "PAID" && (
+          <div className="bg-primary/10 border border-primary/30 rounded-lg p-3 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <IndianRupee className="w-5 h-5 text-primary shrink-0" />
+              <div>
+                <div className="text-xs font-semibold text-primary">Cleared for Financial Disbursal</div>
+                <div className="text-xs text-muted-foreground">All operational and accounting reviews have passed. Ready for payment settlement.</div>
+              </div>
+            </div>
+            <a
+              href="/payments"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-primary text-primary-foreground text-xs font-semibold hover:bg-primary/90 transition-colors shadow-sm"
+            >
+              Go to Payments Queue <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        )}
+
         {/* Visual Workflow Stepper */}
         <div className="py-4">
           <h4 className="text-sm font-semibold mb-3">Workflow Lifecycle Pipeline</h4>
