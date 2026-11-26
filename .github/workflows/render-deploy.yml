@@ -1,0 +1,17 @@
+name: Auto Deploy to Render
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Trigger Render Cloud Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Deploy Webhook to Render
+        run: |
+          echo "Triggering automatic Render deployment for SVCORA SpendX API..."
+          RESPONSE=$(curl -s -X POST "${{ secrets.RENDER_DEPLOY_HOOK || 'https://api.render.com/deploy/srv-dc22u5qvcj2c73a2ulag?key=PxQS0pwSSpA' }}")
+          echo "Render Response: $RESPONSE"
