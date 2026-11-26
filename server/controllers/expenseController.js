@@ -510,49 +510,487 @@ const serveVerifiedReceiptVoucher = (res, expense, filename) => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-  const dateStr = expense.date ? new Date(expense.date).toLocaleDateString('en-IN') : 'N/A';
+  const dateStr = expense.date ? new Date(expense.date).toLocaleDateString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }) : 'N/A';
   const ownerName = expense.user?.name || expense.user?.email || 'Employee';
+  const ownerEmail = expense.user?.email || '';
+  const department = expense.user?.department || 'Operations';
+  const costCenter = expense.costCenterCode || expense.user?.costCenter || 'CC-101';
+  const approvalStatus = (expense.approvalStatus || 'APPROVED').replace(/_/g, ' ');
+  const paymentMethod = (expense.paymentMethod || 'REIMBURSEMENT').replace(/_/g, ' ');
 
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
-    <defs>
-      <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#0f172a"/>
-        <stop offset="100%" stop-color="#1e293b"/>
-      </linearGradient>
-      <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#6366f1"/>
-        <stop offset="100%" stop-color="#8b5cf6"/>
-      </linearGradient>
-    </defs>
-    <rect width="800" height="600" fill="url(#bg)" rx="16"/>
-    <rect x="24" y="24" width="752" height="552" fill="none" stroke="#334155" stroke-width="2" rx="12" stroke-dasharray="6,6"/>
-    <text x="50" y="80" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="24" font-weight="bold">SVCORA SpendX — Verified Expense Receipt</text>
-    <text x="50" y="115" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="14">Digital Tax Record &amp; Reimbursement Voucher</text>
-    <line x1="50" y1="140" x2="750" y2="140" stroke="#334155" stroke-width="1"/>
-    <text x="50" y="180" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="13">CLAIM ID</text>
-    <text x="50" y="205" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="18" font-weight="bold">#${expense.id}</text>
-    <text x="250" y="180" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="13">CATEGORY</text>
-    <text x="250" y="205" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="18" font-weight="bold">${escapeXml(expense.category)}</text>
-    <text x="580" y="180" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="13">AMOUNT</text>
-    <text x="580" y="205" fill="#10b981" font-family="system-ui, sans-serif" font-size="22" font-weight="bold">₹${amountStr}</text>
-    <text x="50" y="260" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="13">SUBMITTED BY</text>
-    <text x="50" y="285" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="16">${escapeXml(ownerName)}</text>
-    <text x="250" y="260" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="13">DATE</text>
-    <text x="250" y="285" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="16">${escapeXml(dateStr)}</text>
-    <text x="580" y="260" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="13">APPROVAL STATUS</text>
-    <text x="580" y="285" fill="#6366f1" font-family="system-ui, sans-serif" font-size="16" font-weight="bold">${escapeXml(expense.approvalStatus || 'APPROVED')}</text>
-    <rect x="50" y="330" width="700" height="90" fill="#1e293b" rx="8" stroke="#334155" stroke-width="1"/>
-    <text x="70" y="360" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="12">ORIGINAL FILE REFERENCE</text>
-    <text x="70" y="385" fill="#cbd5e1" font-family="monospace" font-size="14">${escapeXml(filename)}</text>
-    <text x="70" y="405" fill="#64748b" font-family="system-ui, sans-serif" font-size="11">Archived digital record verified in SVCORA SpendX audit trail.</text>
-    <rect x="50" y="450" width="700" height="70" fill="url(#accent)" fill-opacity="0.1" rx="8" stroke="#6366f1" stroke-width="1"/>
-    <text x="70" y="480" fill="#818cf8" font-family="system-ui, sans-serif" font-size="14" font-weight="bold">✓ Cleared by Accounting &amp; AP Compliance</text>
-    <text x="70" y="502" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="12">This expense report has fulfilled compliance requirements and was approved through the multi-stage hierarchy.</text>
-  </svg>`;
+  const historyEvents = (expense.workflowHistory || []).map((h) => `
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <div class="timeline-header">
+          <span class="timeline-action">${escapeXml(h.action)}</span>
+          <span class="timeline-date">${new Date(h.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+        </div>
+        <div class="timeline-actor">By: <strong>${escapeXml(h.actorName)}</strong> (${escapeXml(h.actorRole)})</div>
+        ${h.comment ? `<div class="timeline-comment">"${escapeXml(h.comment)}"</div>` : ''}
+      </div>
+    </div>
+  `).join('');
 
-  res.setHeader('Content-Type', 'image/svg+xml');
-  res.setHeader('Content-Disposition', `inline; filename="${filename}.svg"`);
-  return res.send(svg);
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Voucher #EXP-${expense.id} | SVCORA SpendX</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.1);
+      --accent: #38bdf8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      padding: 32px 16px;
+      line-height: 1.5;
+      display: flex;
+      justify-content: center;
+    }
+    .voucher-wrapper {
+      max-width: 820px;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+    .top-toolbar {
+      background: #1e293b;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+    }
+    .toolbar-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn {
+      background: #334155;
+      color: #fff;
+      border: 1px solid #475569;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+    .btn:hover { background: #475569; }
+    .btn-primary { background: #4f46e5; border-color: #6366f1; }
+    .btn-primary:hover { background: #4338ca; }
+    
+    .voucher-body { padding: 32px 28px; }
+    
+    .brand-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .brand-logo-group h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-pill {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .brand-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .voucher-id-block {
+      text-align: right;
+    }
+    .voucher-num {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--success-bg);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .meta-box {
+      background: rgba(17, 24, 39, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .meta-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .meta-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      word-break: break-word;
+    }
+    .meta-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      word-break: break-word;
+    }
+    .amount-highlight {
+      font-size: 24px;
+      font-weight: 800;
+      color: #34d399;
+      letter-spacing: -0.5px;
+    }
+
+    .table-container {
+      margin-bottom: 28px;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    th {
+      background: #1e293b;
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #cbd5e1;
+      letter-spacing: 0.5px;
+    }
+    td {
+      padding: 14px 16px;
+      font-size: 13px;
+      border-top: 1px solid var(--card-border);
+      color: #e2e8f0;
+      vertical-align: top;
+    }
+    .col-amount {
+      text-align: right;
+      font-weight: 700;
+      font-size: 15px;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .compliance-box {
+      background: rgba(79, 70, 229, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .compliance-icon {
+      font-size: 20px;
+      line-height: 1;
+      color: #818cf8;
+      margin-top: 2px;
+    }
+    .compliance-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #c7d2fe;
+    }
+    .compliance-desc {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    .file-record {
+      background: #0f172a;
+      border: 1px dashed #334155;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 24px;
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .file-ref {
+      font-family: ui-monospace, monospace;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .audit-section {
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .timeline {
+      border-left: 2px solid #334155;
+      margin-left: 8px;
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .timeline-item {
+      position: relative;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -21px;
+      top: 4px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #6366f1;
+      box-shadow: 0 0 0 3px #111827;
+    }
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .timeline-action { color: #818cf8; text-transform: uppercase; }
+    .timeline-date { color: #64748b; font-size: 11px; }
+    .timeline-actor { font-size: 12px; color: #cbd5e1; margin-top: 2px; }
+    .timeline-comment { font-size: 12px; color: #94a3b8; font-style: italic; margin-top: 2px; }
+
+    .voucher-footer {
+      border-top: 1px solid var(--card-border);
+      padding-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #64748b;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    @media print {
+      body { background: #fff !important; color: #000 !important; padding: 0 !important; }
+      .top-toolbar { display: none !important; }
+      .voucher-wrapper { border: none !important; box-shadow: none !important; max-width: 100% !important; background: #fff !important; }
+      .brand-header { border-bottom: 2px solid #000 !important; }
+      .brand-logo-group h1 { color: #000 !important; }
+      .brand-pill { background: #000 !important; color: #fff !important; }
+      .brand-sub, .meta-sub, .compliance-desc, .timeline-comment { color: #555 !important; }
+      .status-badge { border: 1px solid #000 !important; color: #000 !important; background: #eee !important; }
+      .meta-box { border: 1px solid #ccc !important; background: #fafafa !important; }
+      .meta-label, .section-title { color: #333 !important; }
+      .meta-value { color: #000 !important; }
+      .amount-highlight { color: #000 !important; font-weight: 900 !important; }
+      table { border: 1px solid #ccc !important; }
+      th { background: #f0f0f0 !important; color: #000 !important; border: 1px solid #ccc !important; }
+      td { border: 1px solid #ccc !important; color: #000 !important; }
+      .col-amount { color: #000 !important; }
+      .compliance-box { background: #f8f8f8 !important; border: 1px solid #ccc !important; }
+      .compliance-title { color: #000 !important; }
+      .file-record { background: #f8f8f8 !important; border: 1px solid #ccc !important; color: #333 !important; }
+      .file-ref { color: #000 !important; }
+      .timeline { border-left-color: #999 !important; }
+      .timeline-dot { background: #000 !important; box-shadow: 0 0 0 3px #fff !important; }
+      .timeline-action { color: #000 !important; font-weight: bold !important; }
+      .voucher-footer { border-top: 1px solid #ccc !important; color: #555 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="voucher-wrapper">
+    <div class="top-toolbar">
+      <div class="toolbar-title">
+        <span>SVCORA SpendX Audit &amp; Tax Archive</span>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-primary" onclick="window.print()">🖨️ Print / Save as PDF</button>
+        <button class="btn" onclick="window.close()">✕ Close</button>
+      </div>
+    </div>
+
+    <div class="voucher-body">
+      <div class="brand-header">
+        <div class="brand-logo-group">
+          <h1>
+            <span>SVCORA SpendX</span>
+            <span class="brand-pill">Verified</span>
+          </h1>
+          <div class="brand-sub">Enterprise Expense Reimbursement Voucher &amp; Tax Record</div>
+          <div class="brand-sub"><strong>SVC Infosystems</strong> &bull; Finance &amp; Accounting Operations</div>
+        </div>
+        <div class="voucher-id-block">
+          <div class="voucher-num">#EXP-${String(expense.id).padStart(4, '0')}</div>
+          <div class="status-badge">
+            <span>✓</span> ${escapeXml(approvalStatus)}
+          </div>
+        </div>
+      </div>
+
+      <div class="meta-grid">
+        <div class="meta-box">
+          <div class="meta-label">Claimant Details</div>
+          <div class="meta-value">${escapeXml(ownerName)}</div>
+          <div class="meta-sub">${escapeXml(ownerEmail)}</div>
+          <div class="meta-sub">${escapeXml(department)}</div>
+        </div>
+
+        <div class="meta-box">
+          <div class="meta-label">Expense &amp; Cost Object</div>
+          <div class="meta-value">Incurred: ${escapeXml(dateStr)}</div>
+          <div class="meta-sub">Cost Center: <strong>${escapeXml(costCenter)}</strong></div>
+          <div class="meta-sub">Mechanism: ${escapeXml(paymentMethod)}</div>
+        </div>
+
+        <div class="meta-box" style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);">
+          <div class="meta-label" style="color: #34d399;">Total Approved &amp; Cleared</div>
+          <div class="amount-highlight">₹${amountStr}</div>
+          <div class="meta-sub" style="color: #6ee7b7;">Currency: Indian Rupee (INR)</div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 32%;">Category / Classification</th>
+              <th style="width: 48%;">Business Description / Purpose</th>
+              <th style="width: 20%; text-align: right;">Cleared Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div style="font-weight: 700; color: #fff;">${escapeXml(expense.category)}</div>
+                ${expense.categoryCode ? `<div style="font-size: 11px; color: #818cf8; font-family: monospace; margin-top: 2px;">Code: ${escapeXml(expense.categoryCode)}</div>` : ''}
+              </td>
+              <td>
+                <div>${escapeXml(expense.description)}</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Cost Center Allocation: ${escapeXml(costCenter)}</div>
+              </td>
+              <td class="col-amount">₹${amountStr}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="compliance-box">
+        <div class="compliance-icon">🛡️</div>
+        <div>
+          <div class="compliance-title">Audit Clearance &amp; Internal Controls Verification</div>
+          <div class="compliance-desc">
+            This expense voucher has completed the multi-tier approval hierarchy (operational 1-up manager review, signing authority check, and accounts payable audit). Cleared for corporate disbursal in accordance with SVC Infosystems Financial Policies.
+          </div>
+        </div>
+      </div>
+
+      <div class="file-record">
+        <div>
+          <span>Archived File Reference: </span>
+          <span class="file-ref">${escapeXml(filename)}</span>
+        </div>
+        <div style="font-family: monospace; font-size: 11px; color: #64748b;">
+          Audit Proof ID: SPX-${expense.id}-${Date.now().toString(36).toUpperCase()}
+        </div>
+      </div>
+
+      ${historyEvents ? `
+      <div class="audit-section">
+        <div class="section-title">Chronological Audit Trail</div>
+        <div class="timeline">
+          ${historyEvents}
+        </div>
+      </div>
+      ` : ''}
+
+      <div class="voucher-footer">
+        <div>Generated by SVCORA SpendX Enterprise Platform &bull; ${new Date().toLocaleString('en-IN')}</div>
+        <div>Official Tax Document &bull; Strictly Confidential</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
+
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  return res.send(html);
 };
 
 export const getExpenseReceipt = async (req, res) => {
