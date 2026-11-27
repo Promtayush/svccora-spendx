@@ -203,60 +203,51 @@ const Auth = () => {
         </div>
 
         {/* Center: Hero Value Proposition */}
-        <div className="relative z-10 my-auto py-12 max-w-lg space-y-8">
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-border/80 bg-muted/30 text-xs font-medium text-muted-foreground">
+        <div className="relative z-10 my-auto py-12 max-w-lg space-y-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-border/70 bg-muted/20 text-xs font-medium text-muted-foreground">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            <span>SVC Infosystems Operations & Finance</span>
+            <span>SVC Infosystems Internal Operations & Finance</span>
           </div>
 
-          <div className="space-y-3">
-            <h2 className="text-3xl xl:text-4xl font-bold tracking-tight text-foreground leading-tight">
-              Enterprise expense audit & reimbursement governance.
+          <div className="space-y-4">
+            <h2 className="text-3xl xl:text-4xl font-bold tracking-tight text-foreground leading-[1.2]">
+              Enterprise expense audit & reimbursement governance
             </h2>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Eliminate paper vouchers, manual spreadsheets, and approval delays. Submit, verify, and settle site-visit and operational expenses under automated policy controls.
+            <p className="text-base text-muted-foreground leading-relaxed">
+              Eliminate paper vouchers, manual spreadsheets, and approval bottlenecks. Submit, verify, and disburse site-visit and operational expenses under automated policy controls.
             </p>
           </div>
 
           {/* Key Capabilities */}
-          <div className="space-y-3 pt-2">
-            <div className="flex items-center gap-3 text-sm text-foreground/90">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Automated 1-Up Manager Approvals & Signing Authority Limits</span>
+          <div className="space-y-6 pt-2">
+            <div className="flex items-start gap-3.5">
+              <div className="p-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shrink-0 mt-0.5">
+                <CheckCircle2 className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Multi-stage 1-Up Manager Approvals</p>
+                <p className="text-xs text-muted-foreground mt-0.5">Automated validation hierarchy and signing authority limits per departmental cost center.</p>
+              </div>
             </div>
-            <div className="flex items-center gap-3 text-sm text-foreground/90">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>16 Enterprise Expense Categories with Bill & Receipt Attachments</span>
-            </div>
-            <div className="flex items-center gap-3 text-sm text-foreground/90">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Finance Payout Settlements with Bank UTR Reference Tracking</span>
-            </div>
-          </div>
 
-          {/* Coded Product Voucher Preview */}
-          <div className="rounded-lg border border-border/80 bg-card/70 p-4 space-y-3 font-sans">
-            <div className="flex items-center justify-between border-b border-border/60 pb-2.5 text-xs">
-              <div className="flex items-center gap-2">
-                <span className="font-mono font-semibold text-foreground">CLAIM #0042</span>
-                <span className="text-muted-foreground">·</span>
-                <span className="text-muted-foreground">Site Travel & Lodging</span>
-              </div>
-              <span className="font-mono font-bold text-foreground tabular-nums">₹14,850.00</span>
-            </div>
-            <div className="grid grid-cols-2 gap-3 text-xs">
-              <div>
-                <span className="block text-[11px] text-muted-foreground">Sign-off Status</span>
-                <span className="font-medium text-emerald-400">Cleared · 1-Up Manager</span>
+            <div className="flex items-start gap-3.5">
+              <div className="p-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shrink-0 mt-0.5">
+                <CheckCircle2 className="w-4 h-4" />
               </div>
               <div>
-                <span className="block text-[11px] text-muted-foreground">Disbursal Ref</span>
-                <span className="font-mono text-foreground tabular-nums">UTR-20261124-7894</span>
+                <p className="text-sm font-semibold text-foreground">16 Corporate Expense Categories</p>
+                <p className="text-xs text-muted-foreground mt-0.5">Structured tax invoices, GSTIN tracking, and bill attachment verification with audit retention.</p>
               </div>
             </div>
-            <div className="pt-1.5 flex items-center gap-1.5 text-[11px] text-muted-foreground border-t border-border/40">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-              <span>Compliant with corporate expenditure limits & GST invoice verification</span>
+
+            <div className="flex items-start gap-3.5">
+              <div className="p-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shrink-0 mt-0.5">
+                <CheckCircle2 className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-foreground">Direct Bank UTR Settlement Tracking</p>
+                <p className="text-xs text-muted-foreground mt-0.5">Finance accounting clearance with immutable payment reference and disbursal logs.</p>
+              </div>
             </div>
           </div>
         </div>
