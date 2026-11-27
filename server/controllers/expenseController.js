@@ -544,16 +544,16 @@ const serveVerifiedReceiptVoucher = (res, expense, filename) => {
   <title>Expense Voucher #EXP-${expense.id} | SVCORA SpendX</title>
   <style>
     :root {
-      --bg: #0b0f19;
-      --card-bg: #111827;
-      --card-border: #1f2937;
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --primary: #6366f1;
-      --primary-light: #818cf8;
-      --success: #10b981;
-      --success-bg: rgba(16, 185, 129, 0.1);
-      --accent: #38bdf8;
+      --bg: #09090b;
+      --card-bg: #111114;
+      --card-border: #27272a;
+      --border-subtle: #1f1f23;
+      --text-main: #f4f4f5;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --accent: #10b981;
+      --accent-bg: rgba(16, 185, 129, 0.08);
+      --accent-border: rgba(16, 185, 129, 0.25);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -564,50 +564,55 @@ const serveVerifiedReceiptVoucher = (res, expense, filename) => {
       line-height: 1.5;
       display: flex;
       justify-content: center;
+      -webkit-font-smoothing: antialiased;
     }
     .voucher-wrapper {
       max-width: 820px;
       width: 100%;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+      border-radius: 12px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
       overflow: hidden;
     }
     .top-toolbar {
-      background: #1e293b;
+      background: #141418;
       padding: 12px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #334155;
+      border-bottom: 1px solid var(--card-border);
     }
     .toolbar-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
       display: flex;
       align-items: center;
       gap: 8px;
     }
     .btn {
-      background: #334155;
-      color: #fff;
-      border: 1px solid #475569;
+      background: #1f1f23;
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
       padding: 6px 14px;
       border-radius: 6px;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.15s ease;
+      transition: background 0.15s ease, border-color 0.15s ease;
       text-decoration: none;
     }
-    .btn:hover { background: #475569; }
-    .btn-primary { background: #4f46e5; border-color: #6366f1; }
-    .btn-primary:hover { background: #4338ca; }
+    .btn:hover { background: #27272a; }
+    .btn-primary {
+      background: #27272a;
+      color: #fff;
+      border-color: #3f3f46;
+    }
+    .btn-primary:hover { background: #3f3f46; }
     
     .voucher-body { padding: 32px 28px; }
     
@@ -622,70 +627,67 @@ const serveVerifiedReceiptVoucher = (res, expense, filename) => {
       gap: 16px;
     }
     .brand-logo-group h1 {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
     .brand-pill {
       font-size: 11px;
-      text-transform: uppercase;
-      font-weight: 700;
-      background: linear-gradient(135deg, #4f46e5, #7c3aed);
-      color: #fff;
+      font-weight: 500;
+      background: #1f1f23;
+      color: var(--text-secondary);
+      border: 1px solid var(--card-border);
       padding: 2px 8px;
       border-radius: 4px;
-      letter-spacing: 0.5px;
     }
     .brand-sub {
       font-size: 13px;
       color: var(--text-muted);
-      margin-top: 4px;
+      margin-top: 3px;
     }
     .voucher-id-block {
       text-align: right;
     }
     .voucher-num {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
     }
     .status-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: var(--success-bg);
-      color: #34d399;
-      border: 1px solid rgba(52, 211, 153, 0.3);
-      padding: 4px 10px;
-      border-radius: 9999px;
-      font-size: 12px;
-      font-weight: 700;
+      background: var(--accent-bg);
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
       margin-top: 6px;
-      text-transform: uppercase;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     }
 
     .meta-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 16px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
     .meta-box {
-      background: rgba(17, 24, 39, 0.8);
+      background: #16161a;
       border: 1px solid var(--card-border);
-      border-radius: 10px;
+      border-radius: 8px;
       padding: 16px;
     }
     .meta-label {
       font-size: 11px;
-      text-transform: uppercase;
-      font-weight: 700;
-      letter-spacing: 0.5px;
+      font-weight: 500;
       color: var(--text-muted);
       margin-bottom: 6px;
     }
@@ -702,16 +704,18 @@ const serveVerifiedReceiptVoucher = (res, expense, filename) => {
       word-break: break-word;
     }
     .amount-highlight {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: 24px;
-      font-weight: 800;
-      color: #34d399;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-main);
       letter-spacing: -0.5px;
     }
 
     .table-container {
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       border: 1px solid var(--card-border);
-      border-radius: 10px;
+      border-radius: 8px;
       overflow-x: auto;
     }
     table {
@@ -720,64 +724,64 @@ const serveVerifiedReceiptVoucher = (res, expense, filename) => {
       text-align: left;
     }
     th {
-      background: #1e293b;
-      padding: 12px 16px;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: #cbd5e1;
-      letter-spacing: 0.5px;
+      background: #16161a;
+      padding: 10px 16px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--card-border);
     }
     td {
       padding: 14px 16px;
       font-size: 13px;
-      border-top: 1px solid var(--card-border);
-      color: #e2e8f0;
+      border-top: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
       vertical-align: top;
     }
     .col-amount {
       text-align: right;
-      font-weight: 700;
-      font-size: 15px;
-      color: #fff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 600;
+      font-size: 14px;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-main);
       white-space: nowrap;
     }
 
     .compliance-box {
-      background: rgba(79, 70, 229, 0.08);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      border-radius: 10px;
-      padding: 16px 20px;
+      background: #141418;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 14px 18px;
       margin-bottom: 24px;
       display: flex;
       align-items: flex-start;
-      gap: 14px;
+      gap: 12px;
     }
     .compliance-icon {
-      font-size: 20px;
-      line-height: 1;
-      color: #818cf8;
+      color: var(--accent);
       margin-top: 2px;
+      flex-shrink: 0;
     }
     .compliance-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: #c7d2fe;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
     }
     .compliance-desc {
       font-size: 12px;
-      color: #94a3b8;
+      color: var(--text-muted);
       margin-top: 2px;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     .file-record {
-      background: #0f172a;
-      border: 1px dashed #334155;
-      border-radius: 8px;
-      padding: 12px 16px;
+      background: #141418;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 10px 14px;
       margin-bottom: 24px;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
       display: flex;
       justify-content: space-between;
@@ -787,52 +791,50 @@ const serveVerifiedReceiptVoucher = (res, expense, filename) => {
     }
     .file-ref {
       font-family: ui-monospace, monospace;
-      font-weight: 600;
-      color: #e2e8f0;
+      font-weight: 500;
+      color: var(--text-secondary);
     }
 
     .audit-section {
       margin-bottom: 24px;
     }
     .section-title {
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
       margin-bottom: 12px;
     }
     .timeline {
-      border-left: 2px solid #334155;
+      border-left: 1px solid var(--card-border);
       margin-left: 8px;
       padding-left: 16px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
     .timeline-item {
       position: relative;
     }
     .timeline-dot {
       position: absolute;
-      left: -21px;
-      top: 4px;
-      width: 8px;
-      height: 8px;
+      left: -20px;
+      top: 5px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      background: #6366f1;
-      box-shadow: 0 0 0 3px #111827;
+      background: var(--text-muted);
+      box-shadow: 0 0 0 2px var(--card-bg);
     }
     .timeline-header {
       display: flex;
       justify-content: space-between;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 500;
     }
-    .timeline-action { color: #818cf8; text-transform: uppercase; }
-    .timeline-date { color: #64748b; font-size: 11px; }
-    .timeline-actor { font-size: 12px; color: #cbd5e1; margin-top: 2px; }
-    .timeline-comment { font-size: 12px; color: #94a3b8; font-style: italic; margin-top: 2px; }
+    .timeline-action { color: var(--text-main); font-weight: 600; }
+    .timeline-date { color: var(--text-muted); font-size: 11px; font-family: ui-monospace, monospace; }
+    .timeline-actor { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+    .timeline-comment { font-size: 12px; color: var(--text-muted); font-style: italic; margin-top: 2px; }
 
     .voucher-footer {
       border-top: 1px solid var(--card-border);
@@ -841,7 +843,7 @@ const serveVerifiedReceiptVoucher = (res, expense, filename) => {
       justify-content: space-between;
       align-items: center;
       font-size: 11px;
-      color: #64748b;
+      color: var(--text-muted);
       flex-wrap: wrap;
       gap: 8px;
     }
@@ -850,25 +852,25 @@ const serveVerifiedReceiptVoucher = (res, expense, filename) => {
       body { background: #fff !important; color: #000 !important; padding: 0 !important; }
       .top-toolbar { display: none !important; }
       .voucher-wrapper { border: none !important; box-shadow: none !important; max-width: 100% !important; background: #fff !important; }
-      .brand-header { border-bottom: 2px solid #000 !important; }
+      .brand-header { border-bottom: 1px solid #000 !important; }
       .brand-logo-group h1 { color: #000 !important; }
-      .brand-pill { background: #000 !important; color: #fff !important; }
-      .brand-sub, .meta-sub, .compliance-desc, .timeline-comment { color: #555 !important; }
+      .brand-pill { background: #eee !important; color: #000 !important; border-color: #ccc !important; }
+      .brand-sub, .meta-sub, .compliance-desc, .timeline-comment { color: #444 !important; }
       .status-badge { border: 1px solid #000 !important; color: #000 !important; background: #eee !important; }
       .meta-box { border: 1px solid #ccc !important; background: #fafafa !important; }
       .meta-label, .section-title { color: #333 !important; }
       .meta-value { color: #000 !important; }
-      .amount-highlight { color: #000 !important; font-weight: 900 !important; }
+      .amount-highlight { color: #000 !important; font-weight: 700 !important; }
       table { border: 1px solid #ccc !important; }
-      th { background: #f0f0f0 !important; color: #000 !important; border: 1px solid #ccc !important; }
-      td { border: 1px solid #ccc !important; color: #000 !important; }
+      th { background: #f0f0f0 !important; color: #000 !important; border-bottom: 1px solid #ccc !important; }
+      td { border-top: 1px solid #ccc !important; color: #000 !important; }
       .col-amount { color: #000 !important; }
-      .compliance-box { background: #f8f8f8 !important; border: 1px solid #ccc !important; }
+      .compliance-box { background: #fafafa !important; border: 1px solid #ccc !important; }
       .compliance-title { color: #000 !important; }
-      .file-record { background: #f8f8f8 !important; border: 1px solid #ccc !important; color: #333 !important; }
+      .file-record { background: #fafafa !important; border: 1px solid #ccc !important; color: #333 !important; }
       .file-ref { color: #000 !important; }
-      .timeline { border-left-color: #999 !important; }
-      .timeline-dot { background: #000 !important; box-shadow: 0 0 0 3px #fff !important; }
+      .timeline { border-left-color: #ccc !important; }
+      .timeline-dot { background: #000 !important; box-shadow: 0 0 0 2px #fff !important; }
       .timeline-action { color: #000 !important; font-weight: bold !important; }
       .voucher-footer { border-top: 1px solid #ccc !important; color: #555 !important; }
     }
@@ -881,8 +883,11 @@ const serveVerifiedReceiptVoucher = (res, expense, filename) => {
         <span>SVCORA SpendX Audit &amp; Tax Archive</span>
       </div>
       <div style="display: flex; gap: 8px;">
-        <button class="btn btn-primary" onclick="window.print()">🖨️ Print / Save as PDF</button>
-        <button class="btn" onclick="window.close()">✕ Close</button>
+        <button class="btn btn-primary" onclick="window.print()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+          Print / Save as PDF
+        </button>
+        <button class="btn" onclick="window.close()">Close</button>
       </div>
     </div>
 
@@ -899,30 +904,31 @@ const serveVerifiedReceiptVoucher = (res, expense, filename) => {
         <div class="voucher-id-block">
           <div class="voucher-num">#EXP-${String(expense.id).padStart(4, '0')}</div>
           <div class="status-badge">
-            <span>✓</span> ${escapeXml(approvalStatus)}
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            ${escapeXml(approvalStatus)}
           </div>
         </div>
       </div>
 
       <div class="meta-grid">
         <div class="meta-box">
-          <div class="meta-label">Claimant Details</div>
+          <div class="meta-label">Claimant details</div>
           <div class="meta-value">${escapeXml(ownerName)}</div>
           <div class="meta-sub">${escapeXml(ownerEmail)}</div>
           <div class="meta-sub">${escapeXml(department)}</div>
         </div>
 
         <div class="meta-box">
-          <div class="meta-label">Expense &amp; Cost Object</div>
+          <div class="meta-label">Expense &amp; cost object</div>
           <div class="meta-value">Incurred: ${escapeXml(dateStr)}</div>
           <div class="meta-sub">Cost Center: <strong>${escapeXml(costCenter)}</strong></div>
           <div class="meta-sub">Mechanism: ${escapeXml(paymentMethod)}</div>
         </div>
 
-        <div class="meta-box" style="background: rgba(16, 185, 129, 0.05); border-color: rgba(16, 185, 129, 0.2);">
-          <div class="meta-label" style="color: #34d399;">Total Approved &amp; Cleared</div>
+        <div class="meta-box" style="border-color: rgba(16, 185, 129, 0.2); background: rgba(16, 185, 129, 0.03);">
+          <div class="meta-label">Total approved &amp; cleared</div>
           <div class="amount-highlight">₹${amountStr}</div>
-          <div class="meta-sub" style="color: #6ee7b7;">Currency: Indian Rupee (INR)</div>
+          <div class="meta-sub" style="color: var(--accent);">Cleared for settlement</div>
         </div>
       </div>
 
@@ -930,19 +936,19 @@ const serveVerifiedReceiptVoucher = (res, expense, filename) => {
         <table>
           <thead>
             <tr>
-              <th style="width: 32%;">Category / Classification</th>
-              <th style="width: 48%;">Business Description / Purpose</th>
-              <th style="width: 20%; text-align: right;">Cleared Amount</th>
+              <th style="width: 32%;">Category &amp; classification</th>
+              <th style="width: 48%;">Business description &amp; purpose</th>
+              <th style="width: 20%; text-align: right;">Cleared amount</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>
-                <div style="font-weight: 700; color: #fff;">${escapeXml(expense.category)}</div>
-                ${expense.categoryCode ? `<div style="font-size: 11px; color: #818cf8; font-family: monospace; margin-top: 2px;">Code: ${escapeXml(expense.categoryCode)}</div>` : ''}
+                <div style="font-weight: 600; color: var(--text-main);">${escapeXml(expense.category)}</div>
+                ${expense.categoryCode ? `<div style="font-size: 11px; color: var(--text-muted); font-family: ui-monospace, monospace; margin-top: 2px;">Code: ${escapeXml(expense.categoryCode)}</div>` : ''}
               </td>
               <td>
-                <div>${escapeXml(expense.description)}</div>
+                <div style="color: var(--text-secondary);">${escapeXml(expense.description)}</div>
                 <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Cost Center Allocation: ${escapeXml(costCenter)}</div>
               </td>
               <td class="col-amount">₹${amountStr}</td>
@@ -952,7 +958,7 @@ const serveVerifiedReceiptVoucher = (res, expense, filename) => {
       </div>
 
       <div class="compliance-box">
-        <div class="compliance-icon">🛡️</div>
+        <svg class="compliance-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
         <div>
           <div class="compliance-title">Audit Clearance &amp; Internal Controls Verification</div>
           <div class="compliance-desc">
@@ -966,14 +972,14 @@ const serveVerifiedReceiptVoucher = (res, expense, filename) => {
           <span>Archived File Reference: </span>
           <span class="file-ref">${escapeXml(filename)}</span>
         </div>
-        <div style="font-family: monospace; font-size: 11px; color: #64748b;">
+        <div style="font-family: ui-monospace, monospace; font-size: 11px; color: var(--text-muted);">
           Audit Proof ID: SPX-${expense.id}-${Date.now().toString(36).toUpperCase()}
         </div>
       </div>
 
       ${historyEvents ? `
       <div class="audit-section">
-        <div class="section-title">Chronological Audit Trail</div>
+        <div class="section-title">Chronological audit trail</div>
         <div class="timeline">
           ${historyEvents}
         </div>
