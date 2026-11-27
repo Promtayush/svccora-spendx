@@ -46,21 +46,15 @@ Modern dark theme with professional gradients and enterprise-grade styling
     --ring: 239 84% 67%;
 
     /* Design System Variables */
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--muted)), hsl(var(--card)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 50%, hsl(var(--primary-glow)) 100%);
-    
-    /* Shadows */
-    --shadow-elegant: 0 4px 20px -4px hsl(var(--primary) / 0.2);
-    --shadow-card: 0 2px 10px -2px hsl(var(--background) / 0.8);
-    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.3);
+    /* Shadows - Neutral depth without colored halos */
+    --shadow-elegant: 0 1px 3px 0 rgba(0, 0, 0, 0.15), 0 1px 2px -1px rgba(0, 0, 0, 0.15);
+    --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 
-    /* Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-fast: all 0.15s ease-out;
+    /* Animations - Fast and purposeful */
+    --transition-smooth: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+    --transition-fast: color 0.1s ease, background-color 0.1s ease;
 
     --sidebar-background: 0 0% 98%;
 
@@ -130,16 +124,8 @@ Modern dark theme with professional gradients and enterprise-grade styling
 
 @layer components {
   /* Enterprise Component Styles */
-  .gradient-bg {
-    background: var(--gradient-primary);
-  }
-  
-  .gradient-hero {
-    background: var(--gradient-hero);
-  }
-  
   .card-glow {
-    box-shadow: var(--shadow-elegant);
+    box-shadow: var(--shadow-card);
   }
   
   .transition-smooth {

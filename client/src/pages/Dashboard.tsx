@@ -72,28 +72,28 @@ const Dashboard = () => {
       title: t("stats.totalClaims"),
       value: claims.length.toString(),
       icon: TrendingUp,
-      color: "text-primary",
+      color: "text-muted-foreground",
       link: "/claims",
     },
     {
       title: t("stats.pendingReview"),
       value: totalPending.toString(),
       icon: Clock,
-      color: "text-warning",
+      color: "text-amber-500",
       link: isPrivileged ? "/approvals" : "/claims",
     },
     {
       title: t("stats.approved"),
       value: totalApproved.toString(),
       icon: CheckCircle,
-      color: "text-success",
+      color: "text-emerald-500",
       link: "/claims",
     },
     {
       title: t("stats.totalAmount"),
       value: currencyFormatter.format(totalAmount),
       icon: IndianRupee,
-      color: "text-accent",
+      color: "text-foreground",
       link: "/claims",
     },
   ];
@@ -150,17 +150,16 @@ const Dashboard = () => {
             <Card
               key={stat.title}
               onClick={() => navigate(stat.link)}
-              className="card-glow transform transition-all duration-300 
-             hover:-translate-y-1 hover:shadow-lg hover:border-primary/50 cursor-pointer"
+              className="border border-border/80 bg-card hover:border-border transition-colors cursor-pointer"
             >
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
+                <CardTitle className="text-xs font-medium text-muted-foreground">
                   {stat.title}
                 </CardTitle>
                 <Icon className={`h-4 w-4 ${stat.color}`} />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
+                <div className="text-2xl font-bold font-mono tabular-nums tracking-tight text-foreground">{stat.value}</div>
               </CardContent>
             </Card>
           );
@@ -177,8 +176,8 @@ const Dashboard = () => {
               className="rounded-lg bg-muted p-4 cursor-pointer hover:bg-muted/80 transition-colors"
               onClick={() => navigate("/approvals")}
             >
-              <p className="text-sm text-muted-foreground">{t("stats.pendingReview")}</p>
-              <p className="text-2xl font-bold text-warning">
+              <p className="text-xs text-muted-foreground font-medium">{t("stats.pendingReview")}</p>
+              <p className="text-2xl font-bold font-mono tabular-nums text-amber-500 mt-1">
                 {teamExpenses.filter((expense) => expense.status === "PENDING").length}
               </p>
             </div>
@@ -186,8 +185,8 @@ const Dashboard = () => {
               className="rounded-lg bg-muted p-4 cursor-pointer hover:bg-muted/80 transition-colors"
               onClick={() => navigate("/all-claims")}
             >
-              <p className="text-sm text-muted-foreground">{t("stats.approved")}</p>
-              <p className="text-2xl font-bold text-success">
+              <p className="text-xs text-muted-foreground font-medium">{t("stats.approved")}</p>
+              <p className="text-2xl font-bold font-mono tabular-nums text-emerald-500 mt-1">
                 {teamExpenses.filter((expense) => expense.status === "APPROVED").length}
               </p>
             </div>
@@ -195,8 +194,8 @@ const Dashboard = () => {
               className="rounded-lg bg-muted p-4 cursor-pointer hover:bg-muted/80 transition-colors"
               onClick={() => navigate("/all-claims")}
             >
-              <p className="text-sm text-muted-foreground">{t("stats.totalAmount")}</p>
-              <p className="text-2xl font-bold text-foreground">
+              <p className="text-xs text-muted-foreground font-medium">{t("stats.totalAmount")}</p>
+              <p className="text-2xl font-bold font-mono tabular-nums text-foreground mt-1">
                 {currencyFormatter.format(
                   teamExpenses.reduce((sum, expense) => sum + expense.amount, 0)
                 )}

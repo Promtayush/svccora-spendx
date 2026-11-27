@@ -209,12 +209,12 @@ const DashboardLayout = () => {
         {/* Logo & Brand */}
         <div className="p-6 border-b border-border flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center shrink-0">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shrink-0">
               <IndianRupee className="w-5 h-5 text-primary-foreground" />
             </div>
             {isSidebarOpen && (
               <div>
-                <h1 className="text-xl font-bold gradient-bg bg-clip-text text-transparent">
+                <h1 className="text-xl font-bold tracking-tight text-foreground">
                   {BRAND_NAME}
                 </h1>
                 <p className="text-xs text-muted-foreground">
@@ -300,11 +300,11 @@ const DashboardLayout = () => {
             </Button>
 
             <div>
-              <h2 className="text-base sm:text-lg font-semibold truncate">
-                {timeOfDay}, {firstName}
+              <h2 className="text-base sm:text-lg font-semibold truncate tracking-tight text-foreground">
+                {firstName ? firstName : "Executive Overview"}
               </h2>
               <p className="text-xs text-muted-foreground hidden sm:block">
-                {t("dashboardRole", { role: roleName })}
+                {roleName} · {BRAND_NAME}
               </p>
             </div>
           </div>
@@ -332,9 +332,8 @@ const DashboardLayout = () => {
               >
                 <Bell className="w-5 h-5 text-muted-foreground" />
                 {notifications.length > 0 && (
-                  <span className="absolute top-1 right-1 flex h-2.5 w-2.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-destructive" />
+                  <span className="absolute top-1.5 right-1.5 flex h-2 w-2">
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-destructive" />
                   </span>
                 )}
               </Button>
@@ -401,8 +400,8 @@ const DashboardLayout = () => {
                 onClick={() => setIsProfileOpen((isOpen) => !isOpen)}
                 aria-expanded={isProfileOpen}
               >
-                <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center shrink-0">
-                  <span className="text-sm font-semibold text-primary-foreground">
+                <div className="w-8 h-8 bg-muted border border-border rounded-full flex items-center justify-center shrink-0">
+                  <span className="text-sm font-semibold text-foreground">
                     {userName ? userName.charAt(0).toUpperCase() : "U"}
                   </span>
                 </div>

@@ -188,15 +188,11 @@ const Auth = () => {
   return (
     <div className="min-h-screen w-full grid lg:grid-cols-2 bg-background text-foreground antialiased selection:bg-primary/30">
       {/* Left Column: Enterprise Hero & Branding (Visible on lg+) */}
-      <div className="relative hidden lg:flex flex-col justify-between p-12 xl:p-16 bg-gradient-to-br from-slate-950 via-indigo-950/70 to-slate-950 border-r border-border/50 overflow-hidden">
-        {/* Subtle Ambient Background Gradients */}
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
-
+      <div className="relative hidden lg:flex flex-col justify-between p-12 xl:p-16 bg-slate-950 border-r border-border/60 overflow-hidden">
         {/* Top: Logo & Title */}
         <div className="relative z-10 flex items-center gap-3.5">
-          <div className="h-11 w-11 rounded-xl bg-primary/20 border border-primary/30 flex items-center justify-center shadow-lg shadow-primary/10">
-            <IndianRupee className="w-6 h-6 text-primary" />
+          <div className="h-10 w-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
+            <IndianRupee className="w-5 h-5 text-primary" />
           </div>
           <div>
             <h1 className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
@@ -208,47 +204,59 @@ const Auth = () => {
 
         {/* Center: Hero Value Proposition */}
         <div className="relative z-10 my-auto py-12 max-w-lg space-y-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-semibold text-primary">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Built for SVC Infosystems Operations</span>
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded border border-border/80 bg-muted/30 text-xs font-medium text-muted-foreground">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            <span>SVC Infosystems Operations & Finance</span>
           </div>
 
-          <div className="space-y-4">
-            <h2 className="text-4xl xl:text-5xl font-extrabold tracking-tight text-foreground leading-[1.15]">
-              Simplify spend.{" "}
-              <span className="bg-gradient-to-r from-primary via-indigo-300 to-accent bg-clip-text text-transparent">
-                Amplify growth.
-              </span>
+          <div className="space-y-3">
+            <h2 className="text-3xl xl:text-4xl font-bold tracking-tight text-foreground leading-tight">
+              Enterprise expense audit & reimbursement governance.
             </h2>
-            <p className="text-base text-muted-foreground leading-relaxed">
-              Eliminate paper vouchers, manual spreadsheets, and approval delays. Submit, approve, and reimburse work and site-visit expenses in one unified workspace.
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Eliminate paper vouchers, manual spreadsheets, and approval delays. Submit, verify, and settle site-visit and operational expenses under automated policy controls.
             </p>
           </div>
 
           {/* Key Capabilities */}
           <div className="space-y-3 pt-2">
             <div className="flex items-center gap-3 text-sm text-foreground/90">
-              <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>Automated 1-Up Manager Approvals & Signing Authority Limits</span>
             </div>
             <div className="flex items-center gap-3 text-sm text-foreground/90">
-              <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>16 Enterprise Expense Categories with Bill & Receipt Attachments</span>
             </div>
             <div className="flex items-center gap-3 text-sm text-foreground/90">
-              <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>Finance Payout Settlements with Bank UTR Reference Tracking</span>
             </div>
           </div>
 
-          {/* Testimonial Quote */}
-          <div className="p-4 rounded-xl bg-card/60 border border-border/80 backdrop-blur-md shadow-sm">
-            <p className="text-sm text-foreground/90 italic">
-              "Streamlining operational expense reimbursements across all project site visits with complete audit compliance."
-            </p>
-            <div className="flex items-center gap-2 mt-2.5 text-xs font-semibold text-primary">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>SVC Infosystems Finance & Operations</span>
+          {/* Coded Product Voucher Preview */}
+          <div className="rounded-lg border border-border/80 bg-card/70 p-4 space-y-3 font-sans">
+            <div className="flex items-center justify-between border-b border-border/60 pb-2.5 text-xs">
+              <div className="flex items-center gap-2">
+                <span className="font-mono font-semibold text-foreground">CLAIM #0042</span>
+                <span className="text-muted-foreground">·</span>
+                <span className="text-muted-foreground">Site Travel & Lodging</span>
+              </div>
+              <span className="font-mono font-bold text-foreground tabular-nums">₹14,850.00</span>
+            </div>
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div>
+                <span className="block text-[11px] text-muted-foreground">Sign-off Status</span>
+                <span className="font-medium text-emerald-400">Cleared · 1-Up Manager</span>
+              </div>
+              <div>
+                <span className="block text-[11px] text-muted-foreground">Disbursal Ref</span>
+                <span className="font-mono text-foreground tabular-nums">UTR-20261124-7894</span>
+              </div>
+            </div>
+            <div className="pt-1.5 flex items-center gap-1.5 text-[11px] text-muted-foreground border-t border-border/40">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+              <span>Compliant with corporate expenditure limits & GST invoice verification</span>
             </div>
           </div>
         </div>

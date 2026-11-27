@@ -17,7 +17,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ghost: 'hover:bg-muted',
       destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
       success: 'bg-success text-success-foreground hover:bg-success/90',
-      enterprise: 'bg-gradient-primary text-primary-foreground hover:shadow-elegant transition-all duration-300'
+      enterprise: 'bg-primary text-primary-foreground font-semibold border border-primary/20 shadow-sm hover:bg-primary/90 transition-colors'
     };
     
     const sizes = {

@@ -269,7 +269,7 @@ const ClaimCard = ({
 
   return (
     <>
-      <Card className="transition-smooth hover:shadow-elegant">
+      <Card className="border border-border/80 bg-card hover:border-border transition-colors">
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-2">
             <div className="flex items-center gap-3">
@@ -358,13 +358,13 @@ const ClaimCard = ({
             
             {/* Payment Settlement UTR Display */}
             {claim.paymentStatus === "PAID" && claim.paymentReference && (
-              <div className="rounded-lg bg-emerald-500/10 border border-emerald-500/30 p-2.5 text-xs text-emerald-400 flex items-center justify-between">
-                <span className="font-semibold flex items-center gap-1.5">
-                  <Receipt className="w-3.5 h-3.5 text-emerald-400" />
-                  Reimbursement Disbursed to Bank Account
+              <div className="rounded border border-border/70 bg-muted/40 px-3 py-2 text-xs flex items-center justify-between">
+                <span className="font-medium flex items-center gap-1.5 text-muted-foreground">
+                  <Receipt className="w-3.5 h-3.5 text-foreground" />
+                  Reimbursement Disbursed
                 </span>
-                <span className="font-mono text-xs">
-                  Bank UTR: <strong className="text-foreground">{claim.paymentReference}</strong>
+                <span className="font-mono text-xs text-foreground tabular-nums">
+                  UTR: <strong className="font-semibold">{claim.paymentReference}</strong>
                 </span>
               </div>
             )}
@@ -379,14 +379,14 @@ const ClaimCard = ({
                   <span>{t("submittedBy", { name: claim.submittedBy })}</span>
                 )}
                 {(claim.costCenterCode || claim.rawExpense?.costCenterCode) && (
-                  <span className="text-xs bg-muted px-2 py-0.5 rounded">
+                  <span className="text-xs font-mono bg-muted/60 px-2 py-0.5 rounded border border-border/50 text-muted-foreground">
                     CC: {claim.costCenterCode || claim.rawExpense?.costCenterCode}
                   </span>
                 )}
               </div>
               
               <div className="flex items-center">
-                <span className="text-lg font-semibold text-primary">
+                <span className="text-lg font-semibold font-mono tabular-nums text-foreground">
                   {new Intl.NumberFormat("en-IN", {
                     style: "currency",
                     currency: "INR",

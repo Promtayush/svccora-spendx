@@ -76,16 +76,16 @@ export const WorkflowStepperModal = ({
         </DialogHeader>
 
         {/* Current State Summary Banner */}
-        <div className="p-4 rounded-lg bg-muted/50 border flex flex-wrap items-center justify-between gap-4">
+        <div className="p-4 rounded-lg bg-muted/40 border border-border/80 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Approval Status</div>
-            <div className="text-base font-bold text-primary flex items-center gap-2 mt-0.5">
+            <div className="text-xs text-muted-foreground font-medium">Approval status</div>
+            <div className="text-base font-semibold text-foreground flex items-center gap-2 mt-0.5">
               {approvalStatus.replace(/_/g, " ")}
             </div>
           </div>
           <div>
-            <div className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Current Assignee</div>
-            <div className="text-sm font-medium mt-0.5">
+            <div className="text-xs text-muted-foreground font-medium">Current assignee</div>
+            <div className="text-sm font-medium mt-0.5 text-foreground">
               {expense.currentApprover
                 ? `${expense.currentApprover.name || expense.currentApprover.email} (${expense.currentApprover.role})`
                 : approvalStatus === "IN_ACCOUNTING_REVIEW"
@@ -96,8 +96,8 @@ export const WorkflowStepperModal = ({
             </div>
           </div>
           <div>
-            <div className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Reimbursement</div>
-            <div className="text-sm font-medium mt-0.5">
+            <div className="text-xs text-muted-foreground font-medium">Reimbursement</div>
+            <div className="text-sm font-medium mt-0.5 text-foreground">
               {expense.paymentStatus ? expense.paymentStatus.replace(/_/g, " ") : "NOT PAID"}
             </div>
           </div>
@@ -105,10 +105,10 @@ export const WorkflowStepperModal = ({
 
         {/* Attached Bill / Receipt Preview if present */}
         {expense.receiptUrl && (
-          <div className="p-3 rounded-lg border bg-primary/5 flex items-center justify-between">
+          <div className="p-3 rounded-lg border border-border/70 bg-muted/30 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Paperclip className="w-4 h-4 text-primary" />
-              <span className="text-xs font-semibold">Attached Tax Invoice / Bill:</span>
+              <Paperclip className="w-4 h-4 text-muted-foreground" />
+              <span className="text-xs font-medium text-foreground">Attached Invoice / Bill:</span>
               <span className="text-xs text-muted-foreground font-mono">
                 {expense.receiptUrl.split("/").pop()}
               </span>
@@ -117,7 +117,7 @@ export const WorkflowStepperModal = ({
               href={`${import.meta.env.VITE_API_BASE_URL || "http://localhost:3001"}/api/expenses/${expense.id}/receipt${getToken() ? `?token=${encodeURIComponent(getToken() || "")}` : ""}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
+              className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
             >
               <ExternalLink className="w-3.5 h-3.5" />
               Open Document
@@ -127,13 +127,13 @@ export const WorkflowStepperModal = ({
 
         {/* Payment Settlement UTR Reference Banner */}
         {expense.paymentReference && (
-          <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-2.5 flex items-center justify-between">
-            <span className="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+          <div className="border border-border/80 bg-muted/40 rounded-lg p-3 flex items-center justify-between">
+            <span className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
               Reimbursement Settled via Bank Transfer
             </span>
-            <span className="text-xs font-mono font-medium text-foreground">
-              Bank UTR: <strong>{expense.paymentReference}</strong>
+            <span className="text-xs font-mono font-medium text-foreground tabular-nums">
+              UTR: <strong className="font-semibold">{expense.paymentReference}</strong>
             </span>
           </div>
         )}
