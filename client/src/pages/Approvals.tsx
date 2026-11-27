@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Button } from "@/components/custom/Button";
-import ClaimCard, { Claim } from "@/components/claims/ClaimCard";
+import { ClaimListRow } from "@/components/claims/ClaimListRow";
+import { DataTablePagination } from "@/components/custom/DataTablePagination";
+import { Claim } from "@/components/claims/ClaimCard";
 import {
   Dialog,
   DialogContent,
@@ -80,6 +82,13 @@ const Approvals = () => {
   const [forwardingClaimId, setForwardingClaimId] = useState<string | null>(null);
   const [selectedForwardUser, setSelectedForwardUser] = useState<string>("");
   const [comment, setComment] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const paginatedExpenses = expenses.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
 
   if (isLoading) {
     return <div className="py-12 text-center text-muted-foreground">{t("loading")}</div>;
@@ -163,26 +172,36 @@ const Approvals = () => {
           </p>
         </div>
       ) : (
-        <div className="grid gap-4">
-          {expenses.map((expense) => (
-            <ClaimCard
-              key={expense.id}
-              claim={toClaim(expense)}
-              showActions
-              role={user?.role.toLowerCase()}
-              currentUserId={user?.id}
-              onApprove={(claimId) => approveExpense.mutate(claimId)}
-              onReject={(claimId) => {
-                setRejectingClaimId(claimId);
-                setComment("");
-              }}
-              onForward={(claimId) => {
-                setForwardingClaimId(claimId);
-                setSelectedForwardUser("");
-                setComment("");
-              }}
-            />
-          ))}
+        <div className="border border-border/80 rounded-lg overflow-hidden bg-card/40">
+          <div className="divide-y divide-border/60">
+            {paginatedExpenses.map((expense) => (
+              <ClaimListRow
+                key={expense.id}
+                claim={toClaim(expense)}
+                showActions
+                role={user?.role.toLowerCase()}
+                currentUserId={user?.id}
+                onApprove={(claimId) => approveExpense.mutate(claimId)}
+                onReject={(claimId) => {
+                  setRejectingClaimId(claimId);
+                  setComment("");
+                }}
+                onForward={(claimId) => {
+                  setForwardingClaimId(claimId);
+                  setSelectedForwardUser("");
+                  setComment("");
+                }}
+              />
+            ))}
+          </div>
+          <DataTablePagination
+            currentPage={currentPage}
+            totalItems={expenses.length}
+            pageSize={pageSize}
+            onPageChange={setCurrentPage}
+            onPageSizeChange={setPageSize}
+            itemLabel="pending claims"
+          />
         </div>
       )}
 

@@ -9,7 +9,9 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/custom/Select";
-import ClaimCard, { Claim } from "@/components/claims/ClaimCard";
+import { ClaimListRow } from "@/components/claims/ClaimListRow";
+import { DataTablePagination } from "@/components/custom/DataTablePagination";
+import { Claim } from "@/components/claims/ClaimCard";
 import { Link, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useExpenses } from "@/hooks/useExpenses";
@@ -27,7 +29,7 @@ const Claims = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [dateFilter, setDateFilter] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState<number>(10);
   const claims = useMemo<Claim[]>(
     () =>
       expenses.map((expense) => {
@@ -237,69 +239,45 @@ const Claims = () => {
             </Select>
           </div>
 
-          {/* Claims Grid */}
-          <div className="grid gap-4">
-            {paginatedClaims.length > 0 ? (
-              paginatedClaims.map((claim) => (
-                <ClaimCard
-                  key={claim.id}
-                  claim={claim}
-                  currentUserId={user?.id}
-                />
-              ))
-            ) : (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Filter className="w-8 h-8 text-muted-foreground" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">{t("noClaims")}</h3>
-                <p className="text-muted-foreground mb-4">
-                  {t("emptyMessage")}
-                </p>
-                <Button variant="outline" onClick={() => {
-                  setSearchQuery("");
-                  setStatusFilter("all");
-                  setCategoryFilter("all");
-                  setDateFilter("all");
-                  setCurrentPage(1);
-                }}>
-                  {t("clearFilters")}
-                </Button>
+          {/* Claims List View */}
+          {paginatedClaims.length > 0 ? (
+            <div className="border border-border/80 rounded-lg overflow-hidden bg-card/40">
+              <div className="divide-y divide-border/60">
+                {paginatedClaims.map((claim) => (
+                  <ClaimListRow
+                    key={claim.id}
+                    claim={claim}
+                    currentUserId={user?.id}
+                  />
+                ))}
               </div>
-            )}
-          </div>
-
-          {/* Pagination Controls */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between px-2 py-3 border-t border-border">
-              <span className="text-xs text-muted-foreground">
-                Showing {((currentPage - 1) * pageSize) + 1} - {Math.min(currentPage * pageSize, filteredClaims.length)} of {filteredClaims.length} claims
-              </span>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={currentPage <= 1}
-                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  className="h-8 gap-1 text-xs"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  Previous
-                </Button>
-                <span className="text-xs font-semibold px-2">
-                  Page {currentPage} of {totalPages}
-                </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={currentPage >= totalPages}
-                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  className="h-8 gap-1 text-xs"
-                >
-                  Next
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
+              <DataTablePagination
+                currentPage={currentPage}
+                totalItems={filteredClaims.length}
+                pageSize={pageSize}
+                onPageChange={setCurrentPage}
+                onPageSizeChange={setPageSize}
+                itemLabel="claims"
+              />
+            </div>
+          ) : (
+            <div className="text-center py-12 border border-border/80 rounded-lg bg-card/40">
+              <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
+                <Filter className="w-6 h-6 text-muted-foreground" />
               </div>
+              <h3 className="text-base font-semibold mb-1">{t("noClaims")}</h3>
+              <p className="text-xs text-muted-foreground mb-4">
+                {t("emptyMessage")}
+              </p>
+              <Button variant="outline" size="sm" onClick={() => {
+                setSearchQuery("");
+                setStatusFilter("all");
+                setCategoryFilter("all");
+                setDateFilter("all");
+                setCurrentPage(1);
+              }}>
+                {t("clearFilters")}
+              </Button>
             </div>
           )}
 

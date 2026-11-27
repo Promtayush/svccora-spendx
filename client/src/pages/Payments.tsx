@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Button } from "@/components/custom/Button";
-import ClaimCard, { Claim } from "@/components/claims/ClaimCard";
+import { ClaimListRow } from "@/components/claims/ClaimListRow";
+import { DataTablePagination } from "@/components/custom/DataTablePagination";
+import { Claim } from "@/components/claims/ClaimCard";
 import { useExpenses, usePayExpense } from "@/hooks/useExpenses";
 import { useAuth } from "@/context/AuthContext";
 import { useTranslation } from "react-i18next";
@@ -46,6 +48,22 @@ const Payments = () => {
 
   const [payingExpense, setPayingExpense] = useState<Expense | null>(null);
   const [referenceNo, setReferenceNo] = useState("");
+  const [approvedPage, setApprovedPage] = useState(1);
+  const [approvedPageSize, setApprovedPageSize] = useState(10);
+  const [paidPage, setPaidPage] = useState(1);
+  const [paidPageSize, setPaidPageSize] = useState(10);
+
+  const approvedList = approved.data || [];
+  const paginatedApproved = approvedList.slice(
+    (approvedPage - 1) * approvedPageSize,
+    approvedPage * approvedPageSize
+  );
+
+  const paidList = paid.data || [];
+  const paginatedPaid = paidList.slice(
+    (paidPage - 1) * paidPageSize,
+    paidPage * paidPageSize
+  );
 
   const handleConfirmPayment = () => {
     if (!payingExpense) return;
@@ -88,39 +106,69 @@ const Payments = () => {
         <p className="text-muted-foreground">{t("subtitle")}</p>
       </div>
 
-      <section className="space-y-4">
-        <h2 className="text-xl font-semibold">{t("approvedTitle")}</h2>
-        {approved.data?.length ? (
-          <div className="grid gap-4">
-            {approved.data.map((expense) => (
-              <ClaimCard
-                key={expense.id}
-                claim={toClaim(expense)}
-                showActions
-                role={user?.role.toLowerCase()}
-                currentUserId={user?.id}
-                onPay={() => {
-                  setPayingExpense(expense);
-                  setReferenceNo("");
-                }}
-              />
-            ))}
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">{t("approvedTitle")}</h2>
+          <span className="text-xs text-muted-foreground font-mono tabular-nums">
+            {approvedList.length} total
+          </span>
+        </div>
+        {approvedList.length ? (
+          <div className="border border-border/80 rounded-lg overflow-hidden bg-card/40">
+            <div className="divide-y divide-border/60">
+              {paginatedApproved.map((expense) => (
+                <ClaimListRow
+                  key={expense.id}
+                  claim={toClaim(expense)}
+                  showActions
+                  role={user?.role.toLowerCase()}
+                  currentUserId={user?.id}
+                  onPay={() => {
+                    setPayingExpense(expense);
+                    setReferenceNo("");
+                  }}
+                />
+              ))}
+            </div>
+            <DataTablePagination
+              currentPage={approvedPage}
+              totalItems={approvedList.length}
+              pageSize={approvedPageSize}
+              onPageChange={setApprovedPage}
+              onPageSizeChange={setApprovedPageSize}
+              itemLabel="approved claims"
+            />
           </div>
         ) : (
-          <p className="py-8 text-muted-foreground">{t("approvedEmpty")}</p>
+          <p className="py-8 text-center text-muted-foreground text-xs">{t("approvedEmpty")}</p>
         )}
       </section>
 
-      <section className="space-y-4">
-        <h2 className="text-xl font-semibold">{t("paidTitle")}</h2>
-        {paid.data?.length ? (
-          <div className="grid gap-4">
-            {paid.data.map((expense) => (
-              <ClaimCard key={expense.id} claim={toClaim(expense)} />
-            ))}
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">{t("paidTitle")}</h2>
+          <span className="text-xs text-muted-foreground font-mono tabular-nums">
+            {paidList.length} total
+          </span>
+        </div>
+        {paidList.length ? (
+          <div className="border border-border/80 rounded-lg overflow-hidden bg-card/40">
+            <div className="divide-y divide-border/60">
+              {paginatedPaid.map((expense) => (
+                <ClaimListRow key={expense.id} claim={toClaim(expense)} />
+              ))}
+            </div>
+            <DataTablePagination
+              currentPage={paidPage}
+              totalItems={paidList.length}
+              pageSize={paidPageSize}
+              onPageChange={setPaidPage}
+              onPageSizeChange={setPaidPageSize}
+              itemLabel="paid claims"
+            />
           </div>
         ) : (
-          <p className="py-8 text-muted-foreground">{t("paidEmpty")}</p>
+          <p className="py-8 text-center text-muted-foreground text-xs">{t("paidEmpty")}</p>
         )}
       </section>
 

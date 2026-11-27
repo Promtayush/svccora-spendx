@@ -9,7 +9,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/custom/Select";
-import ClaimCard, { type Claim } from "@/components/claims/ClaimCard";
+import { ClaimListRow } from "@/components/claims/ClaimListRow";
+import { DataTablePagination } from "@/components/custom/DataTablePagination";
+import { type Claim } from "@/components/claims/ClaimCard";
 import { useExpenses } from "@/hooks/useExpenses";
 import { useTranslation } from "react-i18next";
 
@@ -22,7 +24,7 @@ const AllClaims = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFilter, setDateFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const pageSize = 10;
+  const [pageSize, setPageSize] = useState<number>(10);
 
   const claims = useMemo<Claim[]>(
     () =>
@@ -195,48 +197,27 @@ const AllClaims = () => {
             </Select>
           </div>
 
-          <div className="grid gap-4">
-            {paginatedClaims.length > 0 ? (
-              paginatedClaims.map((claim) => <ClaimCard key={claim.id} claim={claim} />)
-            ) : (
-              <div className="py-12 text-center">
-                <Filter className="mx-auto mb-4 h-8 w-8 text-muted-foreground" />
-                <p className="text-muted-foreground">{t("allClaims.noMatches")}</p>
+          {/* Claims List View */}
+          {paginatedClaims.length > 0 ? (
+            <div className="border border-border/80 rounded-lg overflow-hidden bg-card/40">
+              <div className="divide-y divide-border/60">
+                {paginatedClaims.map((claim) => (
+                  <ClaimListRow key={claim.id} claim={claim} />
+                ))}
               </div>
-            )}
-          </div>
-
-          {/* Pagination Controls */}
-          {totalPages > 1 && (
-            <div className="flex items-center justify-between px-2 py-3 border-t border-border">
-              <span className="text-xs text-muted-foreground">
-                Showing {((currentPage - 1) * pageSize) + 1} - {Math.min(currentPage * pageSize, filteredClaims.length)} of {filteredClaims.length} reports
-              </span>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={currentPage <= 1}
-                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  className="h-8 gap-1 text-xs"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  Previous
-                </Button>
-                <span className="text-xs font-semibold px-2">
-                  Page {currentPage} of {totalPages}
-                </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={currentPage >= totalPages}
-                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  className="h-8 gap-1 text-xs"
-                >
-                  Next
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
-              </div>
+              <DataTablePagination
+                currentPage={currentPage}
+                totalItems={filteredClaims.length}
+                pageSize={pageSize}
+                onPageChange={setCurrentPage}
+                onPageSizeChange={setPageSize}
+                itemLabel="claims"
+              />
+            </div>
+          ) : (
+            <div className="py-12 text-center border border-border/80 rounded-lg bg-card/40">
+              <Filter className="mx-auto mb-3 h-8 w-8 text-muted-foreground" />
+              <p className="text-xs text-muted-foreground">{t("allClaims.noMatches")}</p>
             </div>
           )}
         </>
